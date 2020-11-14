@@ -1,8 +1,5 @@
 <template>
-  <div class="home">home</div>
-  <p>测试关联</p>
-  <p>测试</p>
-  <p>再次测试</p>
+  <div class="home"></div>
 </template>
 
 <script>
