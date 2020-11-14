@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>hello lallalalala</h1>
+    <h1>hello hahahahlala</h1>
     <router-view></router-view>
   </div>
 </template>
