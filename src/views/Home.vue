@@ -1,6 +1,5 @@
 <template>
   <div class="home"></div>
-  <p>dddsj</p>
 </template>
 
 <script>
