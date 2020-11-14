@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>hello hahahahlala</h1>
+    <button @click="toRank">跳转排行</button>
     <router-view></router-view>
   </div>
 </template>
@@ -8,6 +8,11 @@
 <script>
 export default {
   name: "App",
+  methods: {
+    toRank() {
+      this.$router.push("/rank");
+    },
+  },
 };
 </script>
 
