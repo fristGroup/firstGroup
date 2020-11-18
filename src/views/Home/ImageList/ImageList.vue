@@ -1,22 +1,27 @@
 <template>
-  <div class="swiper-container  swiper-no-swiping" ref="sw4">
-    <div class="swiper-wrapper">
-      <div
-        class="swiper-slide"
-        v-for="(diskImg, index) in diskImageList"
-        :key="index"
-      >
-        <div class="u-cover ">
-          <img :src="diskImg.imgUrl" class="diskImg" />
-          <a href="###" class="msk"></a>
-          <a href="###"></a>
+  <div class="swiper-outer">
+    <div class="swiper-container  swiper-no-swiping" ref="sw4">
+      <div class="swiper-wrapper">
+        <div
+          class="swiper-slide"
+          v-for="(diskImg, index) in diskImageList"
+          :key="index"
+        >
+          <div class="u-cover ">
+            <img :src="diskImg.picUrl" class="diskImg" />
+            <a href="###" class="msk"></a>
+            <a href="###"></a>
+          </div>
+          <p class="f-thide">
+            <a href="####">{{ diskImg.name }}</a>
+          </p>
+          <p class="f-thide">
+            <span v-for="(singer, index) in diskImg.artists" :key="singer.id">
+              <a href="####">{{ singer.name }}</a>
+              {{ diskImg.artists[index + 1] ? `&nbsp;/` : "" }}
+            </span>
+          </p>
         </div>
-        <p class="f-thide">
-          <a href="####">野生歌手</a>
-        </p>
-        <p class="f-thide">
-          <a href="####">徐秉龙</a>
-        </p>
       </div>
     </div>
     <div class="swiper-button-next"></div>
@@ -33,9 +38,18 @@ export default {
   props: {
     diskImageList: Array,
   },
-  data() {},
+  // data() {},
   // 计算属性
   computed: {},
+  methods: {
+    getSingers(singers) {
+      const singersStr = singers.reduce((pre, current, index) => {
+        let str = `<a href="javascript:;">${current.name}</a>/`;
+        return pre + str;
+      }, "");
+      return `${singersStr.substr(0, singersStr.length - 1)}`;
+    },
+  },
   watch: {
     diskImageList: {
       // 该回调将会在侦听开始之后被立即调用
@@ -68,75 +82,65 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.swiper-container {
-  height: 184px;
-  width: 669px;
-  box-sizing: border-box;
-  padding: 0 16px;
-
-  .swiper-slide {
-    width: 100px;
-    height: 100px;
-
-    .u-cover {
-      margin-top: 28px;
-      width: 100px;
-      height: 100px;
-      position: relative;
-
-      .msk {
-        width: 118px;
+.swiper-outer {
+  position: relative;
+  .swiper-container {
+    height: 184px;
+    width: 645px;
+    box-sizing: border-box;
+    // margin: 0 16px;
+    .swiper-wrapper {
+      .swiper-slide {
+        width: 100px;
         height: 100px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: url("../images/coverall.png") no-repeat 0 -570px;
-      }
 
-      img {
-        width: 100%;
-        height: 100%;
-        padding: 2px;
-        display: block;
+        .u-cover {
+          margin-top: 28px;
+          width: 100px;
+          height: 100px;
+          position: relative;
 
-        &.active {
-          border: 2px solid #f60;
-          padding: 1px;
+          .msk {
+            width: 118px;
+            height: 100px;
+            margin-left: 11px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: url("../images/coverall.png") no-repeat 0 -570px;
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            padding: 2px;
+            display: block;
+          }
         }
 
-        &:hover {
-          border: 2px solid #f60;
-          padding: 1px;
+        .f-thide {
+          width: 90%;
+          line-height: 18px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
-    }
-
-    .f-thide {
-      width: 90%;
-      line-height: 18px;
     }
   }
 
   .swiper-button-next {
+    outline: none;
     left: auto;
-    right: 0;
+    right: 8px;
+    --swiper-navigation-size: 10px;
   }
 
   .swiper-button-prev {
-    left: 0;
+    left: 8px;
     right: auto;
-  }
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    box-sizing: border-box;
-    width: 16px;
-    height: 184px;
-    top: 0;
-    margin-top: 0;
-    &::after {
-      font-size: 12px;
-    }
+    outline: none;
+    --swiper-navigation-size: 10px;
   }
 }
 </style>

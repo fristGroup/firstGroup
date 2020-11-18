@@ -7,7 +7,7 @@
         :key="index"
       >
         <div :style="`backgroundImage:url(${carousel.bgImg})`" class="bgImg">
-          <img :src="carousel.imgUrl" alt />
+          <img :src="carousel.imageUrl" alt />
         </div>
       </div>
     </div>
@@ -28,12 +28,12 @@ export default {
   },
   data() {
     return {
-      flag: true,
+      // flag: true,
     };
   },
   mounted() {
     // console.log('mounted....执行了.....', this.carouselList.length)
-    this.test();
+    // this.test();
   },
   watch: {
     carouselList: {
@@ -81,21 +81,33 @@ export default {
       if (this.carouselList.length === 0) return;
       // console.log('watch....执行了....', this.carouselList.length)
       // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。\
-      if (!this.flag) return;
+      // if (!this.flag) return;
+
       this.$nextTick(() => {
-        new Swiper(this.$refs.sw, {
-          loop: true, // 循环模式选项
-          // 如果需要分页器
-          pagination: {
-            el: ".swiper-pagination",
-          },
-          // 如果需要前进后退按钮
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          },
-        });
-        this.flag = false;
+        setTimeout(() => {
+          new Swiper(this.$refs.sw, {
+            loop: true, // 循环模式选项
+            // 如果需要分页器
+            pagination: {
+              el: ".swiper-pagination",
+            },
+            effect: "fade",
+            //三秒切换
+            autoplay: {
+              delay: 3000,
+              stopOnLastSlide: false,
+              disableOnInteraction: true,
+              disableOnInteraction: false,
+            },
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          });
+        }, 1000);
+
+        // this.flag = false;
       });
     },
   },
@@ -121,9 +133,11 @@ export default {
   }
   .swiper-button-prev {
     left: 200px;
+    --swiper-navigation-color: rgb(230, 223, 223);
   }
   .swiper-button-next {
     right: 195px;
+    --swiper-navigation-color: rgb(230, 223, 223);
   }
   .swiper-pagination-bullets {
     left: -110px;

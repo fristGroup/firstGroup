@@ -29,155 +29,26 @@
               </div>
 
               <ul class="m-cvrlst">
-                <li>
+                <li
+                  v-for="hotRecommend in hotRecommendList"
+                  :key="hotRecommend.id"
+                >
                   <div class="u-cover">
-                    <img
-                      src="http://p1.music.126.net/xTCLqndLmGzab5g8NPs1LQ==/109951165460660364.jpg?param=140y140"
-                      alt=""
-                    />
+                    <img v-lazy="hotRecommend.picUrl" alt="" />
                     <a href="###" class="msk"></a>
                     <div class="bottom">
                       <a href="###" class="icon-play"></a>
                       <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
+                      <span class="nb">{{
+                        hotRecommend.playCount / 10000 > 0
+                          ? parseInt(hotRecommend.playCount / 10000) + "万"
+                          : hotRecommend.playCount
+                      }}</span>
                     </div>
                   </div>
                   <p class="dec">
                     <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p1.music.126.net/nKjlWu5DHes8Ek0qafzjOQ==/109951165106188472.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p1.music.126.net/DmDyZumGVjTVUNipcO98gQ==/109951165170421159.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p2.music.126.net/I_SYMxuMZFMbPSQPRZXesA==/109951165461787199.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p1.music.126.net/1uwhOK1xgEsVXywVcySFAQ==/109951165420393839.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p2.music.126.net/8cfRahYjoSlsABQY76IEbA==/109951165422490662.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p1.music.126.net/M2mxcI3F6fu3XkBJsiHHKQ==/109951164991116806.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
-                    </a>
-                  </p>
-                </li>
-                <li>
-                  <div class="u-cover">
-                    <img
-                      src="http://p2.music.126.net/BqHM3hlDz3uZvCDs9ZlCPQ==/109951164082360408.jpg?param=140y140"
-                      alt=""
-                    />
-                    <a href="###" class="msk"></a>
-                    <div class="bottom">
-                      <a href="###" class="icon-play"></a>
-                      <span class="icon-headset"></span>
-                      <span class="nb">37万</span>
-                    </div>
-                  </div>
-                  <p class="dec">
-                    <a href="###" class="tit">
-                      布鲁斯|趁阳光正好开车去旅行
+                      {{ hotRecommend.name }}
                     </a>
                   </p>
                 </li>
@@ -207,19 +78,19 @@
                 </span>
               </div>
               <div class="n-bilst">
-                <dl class="blk">
+                <dl
+                  class="blk"
+                  v-for="(top, topIndex) in topList"
+                  :key="top.id"
+                >
                   <dt class="top">
                     <div class="cver">
-                      <img
-                        src="http://p3.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg?param=100y100"
-                        alt=""
-                        class="j-img"
-                      />
+                      <img v-lazy="top.coverImgUrl" alt="" class="j-img" />
                       <a href="####" class="msk"></a>
                     </div>
                     <div class="tit">
                       <a href="###">
-                        云音乐飙升榜
+                        {{ top.name }}
                       </a>
                       <div class="btn">
                         <a href="###" title="播放" class="bg-play"></a>
@@ -228,184 +99,29 @@
                     </div>
                   </dt>
                   <dd>
-                    <ol>
-                      <li>
-                        <span class="no no-top">1</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no no-top">2</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no no-top">3</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">4</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">5</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">6</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">7</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">8</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">9</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">10</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                    </ol>
-                    <div class="more">
-                      <a href="####">查看全部></a>
-                    </div>
-                  </dd>
-                </dl>
-
-                <dl class="blk">
-                  <dt class="top">
-                    <div class="cver">
-                      <img
-                        src="http://p3.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg?param=100y100"
-                        alt=""
-                        class="j-img"
-                      />
-                      <a href="####" class="msk"></a>
-                    </div>
-                    <div class="tit">
-                      <a href="###">
-                        云音乐飙升榜
-                      </a>
-                      <div class="btn">
-                        <a href="###" title="播放" class="bg-play"></a>
-                        <a href="###" title="收藏" class="bg-collect"></a>
-                      </div>
-                    </div>
-                  </dt>
-                  <dd>
-                    <ol>
-                      <li>
-                        <span class="no no-top">1</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no no-top">2</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no no-top">3</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">4</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">5</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">6</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">7</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">8</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">9</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">10</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                    </ol>
-                    <div class="more">
-                      <a href="####">查看全部></a>
-                    </div>
-                  </dd>
-                </dl>
-
-                <dl class="blk">
-                  <dt class="top">
-                    <div class="cver">
-                      <img
-                        src="http://p3.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg?param=100y100"
-                        alt=""
-                        class="j-img"
-                      />
-                      <a href="####" class="msk"></a>
-                    </div>
-                    <div class="tit">
-                      <a href="###">
-                        云音乐飙升榜
-                      </a>
-                      <div class="btn">
-                        <a href="###" title="播放" class="bg-play"></a>
-                        <a href="###" title="收藏" class="bg-collect"></a>
-                      </div>
-                    </div>
-                  </dt>
-                  <dd>
-                    <ol>
-                      <li>
-                        <span class="no no-top">1</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no no-top">2</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no no-top">3</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">4</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">5</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">6</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">7</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">8</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">9</span>
-                        <a href="###">经济舱</a>
-                      </li>
-                      <li>
-                        <span class="no">10</span>
-                        <a href="###">经济舱</a>
+                    <ol v-if='topDetailList[topIndex]'>
+                      <li
+                        v-for="(topDetail, index) in topDetailList[topIndex]
+                          .tracks"
+                        :key="topDetail.id"
+                        :data-topId="topDetail.id"
+                        @mouseenter="
+                          isIconShow($event, topIndex + '' + topDetail.id)
+                        "
+                        @mouseleave="isIconHide($event, topDetail.id)"
+                      >
+                        <span class="no" :class="{ noTop: index < 3 }">{{
+                          index + 1
+                        }}</span>
+                        <a href="###">{{ topDetail.name }}</a>
+                        <div
+                          class="oper"
+                          v-show="currentId === topIndex + '' + topDetail.id"
+                        >
+                          <a href="####" title="播放"></a>
+                          <a href="####" title="添加到播放列表"></a>
+                          <a href="####" title="收藏"></a>
+                        </div>
                       </li>
                     </ol>
                     <div class="more">
@@ -432,83 +148,18 @@
               <a href="###" class="more">查看全部 ></a>
             </div>
             <ul class="n-enter">
-              <li>
+              <li v-for="(singer, index) in singersList" :key="singer.id">
                 <a href="####" class="itm">
                   <div class="head">
-                    <img
-                      class="j-img"
-                      src="http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62"
-                    />
+                    <img class="j-img" v-lazy="singer.img1v1Url" />
                   </div>
                   <div class="ifo">
                     <h4>
-                      <span class="nm">张惠妹aMEI</span>
+                      <span class="nm">{{ singer.name }}</span>
                     </h4>
-                    <p class="f-thide s-fc3">台湾歌手张惠妹</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="####" class="itm">
-                  <div class="head">
-                    <img
-                      class="j-img"
-                      src="http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62"
-                    />
-                  </div>
-                  <div class="ifo">
-                    <h4>
-                      <span class="nm">张惠妹aMEI</span>
-                    </h4>
-                    <p class="f-thide s-fc3">台湾歌手张惠妹</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="####" class="itm">
-                  <div class="head">
-                    <img
-                      class="j-img"
-                      src="http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62"
-                    />
-                  </div>
-                  <div class="ifo">
-                    <h4>
-                      <span class="nm">张惠妹aMEI</span>
-                    </h4>
-                    <p class="f-thide s-fc3">台湾歌手张惠妹</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="####" class="itm">
-                  <div class="head">
-                    <img
-                      class="j-img"
-                      src="http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62"
-                    />
-                  </div>
-                  <div class="ifo">
-                    <h4>
-                      <span class="nm">张惠妹aMEI</span>
-                    </h4>
-                    <p class="f-thide s-fc3">台湾歌手张惠妹</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="####" class="itm">
-                  <div class="head">
-                    <img
-                      class="j-img"
-                      src="http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62"
-                    />
-                  </div>
-                  <div class="ifo">
-                    <h4>
-                      <span class="nm">张惠妹aMEI</span>
-                    </h4>
-                    <p class="f-thide s-fc3">台湾歌手张惠妹</p>
+                    <p class="f-thide s-fc3">
+                      {{ singer.singerInfo }}
+                    </p>
                   </div>
                 </a>
               </li>
@@ -522,79 +173,15 @@
           <div class="n-dj">
             <h3 class="v-hd3">热门主播</h3>
             <ul class="n-hotdj">
-              <li>
+              <li v-for="(dj, index) in popularDjList" :key="dj.id">
                 <a href="###" class="cver">
-                  <img
-                    src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
-                    alt=""
-                    class="j-img"
-                  />
+                  <img v-lazy="dj.avatarUrl" alt="" class="j-img" />
                 </a>
                 <div class="info">
                   <p>
-                    <a href="###">陈立</a>
+                    <a href="###">{{ dj.nickName }}</a>
                   </p>
-                  <p>心理学家、美食家陈立教授</p>
-                </div>
-              </li>
-              <li>
-                <a href="###" class="cver">
-                  <img
-                    src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
-                    alt=""
-                    class="j-img"
-                  />
-                </a>
-                <div class="info">
-                  <p>
-                    <a href="###">陈立</a>
-                  </p>
-                  <p>心理学家、美食家陈立教授</p>
-                </div>
-              </li>
-              <li>
-                <a href="###" class="cver">
-                  <img
-                    src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
-                    alt=""
-                    class="j-img"
-                  />
-                </a>
-                <div class="info">
-                  <p>
-                    <a href="###">陈立</a>
-                  </p>
-                  <p>心理学家、美食家陈立教授</p>
-                </div>
-              </li>
-              <li>
-                <a href="###" class="cver">
-                  <img
-                    src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
-                    alt=""
-                    class="j-img"
-                  />
-                </a>
-                <div class="info">
-                  <p>
-                    <a href="###">陈立</a>
-                  </p>
-                  <p>心理学家、美食家陈立教授</p>
-                </div>
-              </li>
-              <li>
-                <a href="###" class="cver">
-                  <img
-                    src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
-                    alt=""
-                    class="j-img"
-                  />
-                </a>
-                <div class="info">
-                  <p>
-                    <a href="###">陈立</a>
-                  </p>
-                  <p>心理学家、美食家陈立教授</p>
+                  <p>{{ dj.nickName }}</p>
                 </div>
               </li>
             </ul>
@@ -615,69 +202,124 @@ export default {
   },
   data() {
     return {
-      carouselList: [
-        {
-          imgUrl:
-            "http://p1.music.126.net/8biaw2elxmOL87nAL32xNw==/109951165469791077.jpg?imageView&quality=89",
-          bgImg:
-            "https://p1.music.126.net/2kUl4tChPWYX3caCT2mPsA==/109951165469792908.jpg?imageView&blur=40x20",
-        },
-        {
-          imgUrl:
-            "https://p1.music.126.net/dr2QYD17sg_lE3XO9WU_8g==/109951165469838450.jpg?imageView&quality=89",
-          bgImg:
-            "https://p1.music.126.net/dr2QYD17sg_lE3XO9WU_8g==/109951165469838450.jpg?imageView&blur=40x20",
-        },
-        {
-          imgUrl:
-            "https://p1.music.126.net/t8zCOCTJFAdbxfceGMOAcQ==/109951165470064300.jpg?imageView&quality=89",
-          bgImg:
-            "https://p1.music.126.net/t8zCOCTJFAdbxfceGMOAcQ==/109951165470064300.jpg?imageView&blur=40x20",
-        },
-      ],
-      diskImageList: [
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-        {
-          imgUrl:
-            "http://p4.music.126.net/HNGd98rf98w7P7gJzgxeDg==/109951165317365712.jpg?param=100y100",
-        },
-      ],
+      currentId: "",
+      carouselList: [],
+      hotRecommendList: [],
+      diskImageList: [],
+      popularDjList: [],
+      singersList: [],
+      topList: [],
+      topDetailList: [],
+      iconShow: false,
     };
+  },
+  async mounted() {
+    //获取主页的大轮播图
+    this.getCarouselList();
+    //获取榜单
+    await this.getTopList();
+    //获取榜单详情
+    this.getTopDetailList();
+    //获取热门推荐
+    this.getHotRecommendList();
+    //获取新碟上架
+    this.getDiskImageList();
+    //获取热门主播
+    this.getPopularDj();
+    //获取入驻歌手
+    await this.getSingerList();
+  },
+  methods: {
+    isIconShow(event, id) {
+      // console.log("event", event);
+      // console.log(id, event);
+      // console.log(id, event.target.dataset.topid);
+      this.currentId = id;
+    },
+    isIconHide(event, id) {
+      this.currentId = "";
+    },
+    async getCarouselList() {
+      const result = await this.$API.banners.getBannersList();
+      // console.log(result);
+      if (result.code === 200) {
+        this.carouselList = result.banners;
+      }
+    },
+    async getHotRecommendList() {
+      const result = await this.$API.hotRecommend.getHotRecommendList();
+      // console.log(result);
+      if (result.code === 200) {
+        this.hotRecommendList = result.result;
+      }
+    },
+    async getDiskImageList() {
+      const result = await this.$API.banners.getNewAlbumList();
+      // console.log(result);
+      if (result.code === 200) {
+        this.diskImageList = result.albums.slice(0, 10);
+      }
+    },
+    async getPopularDj() {
+      const result = await this.$API.popularDj.getPopularDjList();
+      // console.log(result);
+      if (result.code === 200) {
+        this.popularDjList = result.data.list;
+      }
+    },
+    async getSingerList() {
+      const result = await this.$API.singers.getSingerList();
+
+      if (result.code === 200) {
+        this.singersList = result.artists;
+        const promises = result.artists.map((item, index) => {
+          return this.getSingerInfo(item.id);
+        });
+        const singerInfo = await Promise.all(promises);
+        this.singersList = this.singersList.map((item, index) => {
+          return {
+            ...item,
+            singerInfo: singerInfo[index],
+          };
+        });
+
+        // singerInfo=res.
+      }
+    },
+    async getSingerInfo(id) {
+      const result = await this.$API.singers.getSingerInfo(id);
+      // const briefDesc = "";
+      // this.$API.singers.getSingerInfo(id).then((success) => {
+      //   const briefDesc = success.briefDesc;
+      // });
+
+      if (result.code === 200) {
+        // console.log(result.briefDesc);
+        return result.briefDesc;
+      }
+    },
+    async getTopList() {
+      const result = await this.$API.topList.getTopList();
+      // console.log(result);
+      if (result.code === 200) {
+        this.topList = result.list.splice(0, 3);
+      }
+    },
+    async getTopDetailList() {
+      const { topList, topDetailList } = this;
+      // console.log(topList);
+      const promises = topList.map((item, index) => {
+        let result = this.$API.topList.getTopDetailList(item.id);
+        return result;
+      });
+      // console.log(promises);
+      const res = await Promise.all(promises);
+      // console.log(res);
+      res.forEach((item, index) => {
+        topDetailList.push({ tracks: item.playlist.tracks.slice(0, 10) });
+      });
+      this.topDetailList = topDetailList;
+    },
   },
 };
 </script>
@@ -967,14 +609,46 @@ export default {
                       color: #666;
                       font-size: 16px;
                     }
-                    .no-top {
+                    .noTop {
                       color: #c10d0c;
                     }
                     a {
                       float: left;
-                      width: 170px;
+                      width: 96px;
                       height: 32px;
                       color: #000;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                    }
+                    .songShow {
+                      width: 170px;
+                    }
+                    .iconShow {
+                      display: block;
+                    }
+                    .oper {
+                      float: right;
+                      width: 82px;
+                      margin-top: 7px;
+                      // display: none;
+                      a {
+                        float: left;
+                        width: 17px;
+                        height: 17px;
+                        margin-right: 10px;
+
+                        &:nth-child(1) {
+                          background: url("./images/index.png") no-repeat -267px -268px;
+                        }
+                        &:nth-child(2) {
+                          background: url("./images/icon1.png") no-repeat 0 -700px;
+                          margin: 2px 6px 0 0;
+                        }
+                        &:nth-child(3) {
+                          background: url("./images/index.png") no-repeat -297px -268px;
+                        }
+                      }
                     }
                   }
                 }
@@ -1055,6 +729,11 @@ export default {
                 float: left;
                 width: 62px;
                 height: 62px;
+                .j-img {
+                  display: block;
+                  width: 62px;
+                  height: 62px;
+                }
               }
               .ifo {
                 float: left;
@@ -1073,6 +752,9 @@ export default {
 
                 .f-thide {
                   margin-top: 8px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
                 }
               }
             }
@@ -1132,6 +814,11 @@ export default {
               float: left;
               width: 160px;
               line-height: 21px;
+              p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
             }
           }
         }
