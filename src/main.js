@@ -31,6 +31,13 @@ Vue.use(VueLazyload, {
   loading,
 });
 
+//引入公共组件
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+//设置为全局公共组件
+Vue.component("Footer", Footer);
+Vue.component("Header", Header);
+
 new Vue({
   // 数据初始化之前
   beforeCreate() {

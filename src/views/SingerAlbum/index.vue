@@ -246,15 +246,15 @@ export default {
 <style lang="less" rel="stylesheet/less" scoped>
 body {
   width: 100%;
-  height: 100%;
+  // height: 100%;
   font-size: 12px;
   color: #333;
 }
 .singerContext {
   width: 982px;
   margin: 0 auto;
-  // border: 1px solid #cccccc;
-  // min-height: 1500px;
+  border: 1px solid #cccccc;
+  // height: 2000px;
   //左边
   .singerConLeft {
     padding: 30px;
@@ -300,7 +300,7 @@ body {
         line-height: 39px;
         text-align: center;
         background-color: #f4f4f4;
-        // cursor: pointer;
+        cursor: pointer;
       }
       .active {
         background-color: #fff;
@@ -311,10 +311,10 @@ body {
       }
       .tab1 {
         width: 594px;
-        height: 1000px;
+
         float: left;
         .buttonPlay {
-          width: 100%;
+          // width: 100%;
           margin: 20px 0 10px;
           height: 50px;
           .clickPlay {
@@ -345,6 +345,10 @@ body {
           }
         }
         //tab切换样式
+        //隐藏tab切换滚动条
+        /deep/ .el-table--scrollable-y .el-table__body-wrapper {
+          overflow-y: hidden;
+        }
         /deep/ .el-table__row {
         }
         // .pB {
@@ -409,6 +413,14 @@ body {
     }
   }
   //右边
+  .el-row {
+    .el-col-16 {
+      border-right: 1px solid #cccccc;
+    }
+    .el-col-8 {
+      padding-left: 29px;
+    }
+  }
   .singerConRigth {
     padding-top: 20px;
     font-size: 12px;
