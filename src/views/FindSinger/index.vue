@@ -8,8 +8,12 @@
             <div class="singer-cat-nav">
               <h2 class="tit">推荐</h2>
               <ul class="navListOne">
-                <li class="active">- 推荐歌手</li>
-                <li data-type="3" data-area="7">- 入驻歌手</li>
+                <li data-isAbcList="isAbcList">
+                  - 推荐歌手
+                </li>
+                <li data-type="3" data-area="7" data-isAbcList="isAbcList">
+                  - 入驻歌手
+                </li>
               </ul>
               <div class="blk">
                 <h2 class="tit">华语</h2>
@@ -62,210 +66,98 @@
               <el-col :span="24"
                 ><div class="grid-content bg-purple-dark">
                   <div class="singerCategory">
-                    <h3><span>入驻歌手</span></h3>
+                    <h3><span>歌手</span></h3>
                     <a>更多 ></a>
                   </div>
                   <!-- 字母跳转区域 -->
                   <ul
                     class="n-ltlst f-cb"
                     id="initial-selector"
-                    :v-if="{ isAbcList }"
+                    v-show="isAbcList"
                   >
                     <li class="remen">
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=-1"
-                        class="ch f-fs0 z-slt"
-                        >热门</a
-                      >
+                      <a href="" class="ch f-fs0 z-slt">热门</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=65"
-                        class=""
-                        >A</a
-                      >
+                      <a href="" class="">A</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=66"
-                        class=""
-                        >B</a
-                      >
+                      <a href="" class="">B</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=67"
-                        class=""
-                        >C</a
-                      >
+                      <a href="" class="">C</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=68"
-                        class=""
-                        >D</a
-                      >
+                      <a href="" class="">D</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=69"
-                        class=""
-                        >E</a
-                      >
+                      <a href="" class="">E</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=70"
-                        class=""
-                        >F</a
-                      >
+                      <a href="" class="">F</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=71"
-                        class=""
-                        >G</a
-                      >
+                      <a href="" class="">G</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=72"
-                        class=""
-                        >H</a
-                      >
+                      <a href="" class="">H</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=73"
-                        class=""
-                        >I</a
-                      >
+                      <a href="" class="">I</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=74"
-                        class=""
-                        >J</a
-                      >
+                      <a href="" class="">J</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=75"
-                        class=""
-                        >K</a
-                      >
+                      <a href="" class="">K</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=76"
-                        class=""
-                        >L</a
-                      >
+                      <a href="" class="">L</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=77"
-                        class=""
-                        >M</a
-                      >
+                      <a href="" class="">M</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=78"
-                        class=""
-                        >N</a
-                      >
+                      <a href="" class="">N</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=79"
-                        class=""
-                        >O</a
-                      >
+                      <a href="" class="">O</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=80"
-                        class=""
-                        >P</a
-                      >
+                      <a href="" class="">P</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=81"
-                        class=""
-                        >Q</a
-                      >
+                      <a href="" class="">Q</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=82"
-                        class=""
-                        >R</a
-                      >
+                      <a href="" class="">R</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=83"
-                        class=""
-                        >S</a
-                      >
+                      <a href="" class="">S</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=84"
-                        class=""
-                        >T</a
-                      >
+                      <a href="" class="">T</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=85"
-                        class=""
-                        >U</a
-                      >
+                      <a href="" class="">U</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=86"
-                        class=""
-                        >V</a
-                      >
+                      <a href="" class="">V</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=87"
-                        class=""
-                        >W</a
-                      >
+                      <a href="" class="">W</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=88"
-                        class=""
-                        >X</a
-                      >
+                      <a href="" class="">X</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=89"
-                        class=""
-                        >Y</a
-                      >
+                      <a href="" class="">Y</a>
                     </li>
                     <li>
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=90"
-                        class=""
-                        >Z</a
-                      >
+                      <a href="" class="">Z</a>
                     </li>
                     <li class="qita">
-                      <a
-                        href="/discover/artist/cat?id=1002&amp;initial=0"
-                        class="ch f-fs0 "
-                        >其他</a
-                      >
+                      <a href="" class="ch f-fs0 ">其他</a>
                     </li>
                   </ul>
                   <div class="singeListCon">
@@ -274,19 +166,26 @@
                         v-for="item in singerClassificationList"
                         :key="item.id"
                       >
-                        <div class="singerNameDetails">
+                        <!-- :click="sendMsg(item.id, item.name, item.picUrl)" -->
+                        <!-- to="/singerAlbum" -->
+                        <a
+                          class="singerNameDetails"
+                          @click="
+                            ToSingerAlbum(item.id, item.name, item.picUrl)
+                          "
+                        >
                           <img
-                            :src="item.picUrl"
+                            v-lazy="item.picUrl"
                             :alt="item.name + '的音乐'"
                             :title="item.name + '的音乐'"
                           />
                           <div class="setIco">
                             <p>
                               {{ item.name }}
-                              <span class="iconfont icon-bussiness-man"></span>
                             </p>
+                            <div></div>
                           </div>
-                        </div>
+                        </a>
                       </li>
                     </ul>
                   </div></div
@@ -298,10 +197,10 @@
               <ul class="singerName-conList">
                 <li v-for="item in singerClassName" :key="item.id">
                   <div class="setSingerName">
-                    <p>
+                    <router-link :to="'/singerAlbum/' + item.id">
                       {{ item.name }}
-                      <span class="iconfont icon-bussiness-man"></span>
-                    </p>
+                      <div></div>
+                    </router-link>
                   </div>
                 </li>
               </ul>
@@ -314,7 +213,7 @@
 
 <script>
 //引入Vuex中的辅助函数
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "FindSinger",
   //数据
@@ -322,6 +221,8 @@ export default {
     return {
       //点击华语,欧美等分类时右侧字母导航栏显示
       isAbcList: false,
+      //点击显示样式
+      isshow: false,
       //分类导航数组
       singerClassificationList: [],
       //页面下方需要的歌手名字
@@ -330,8 +231,8 @@ export default {
   },
   //计算属性
   computed: {
-    //通过Vue的辅助函数来获取home中的状态数据
-    ...mapState({}),
+    // //通过Vue的辅助函数来获取home中的状态数据
+    // ...mapState({}),
   },
   //页面渲染开始前的回调
   mounted() {
@@ -348,7 +249,7 @@ export default {
       this.singerClassName = result.artists.filter((item, index) => {
         return index > 10;
       }, []);
-      console.log(this.singerClassName);
+      // console.log(this.singerClassName);
     },
     //获取歌手分类信息
     async getSingerList(type, area) {
@@ -357,26 +258,48 @@ export default {
       this.singerClassName = result.artists.filter((item, index) => {
         return index > 10;
       }, []);
+      // console.log(this.singerClassificationList);
     },
     //事件委托
     handleClick(e) {
+      // console.log(e);
       if (e.target.tagName === "LI") {
-        // console.log(e.target.dataset.type);
-        // const type = e.tar.dataset.type;
-        // const area = e.tar.dataset.area;
         const { type, area } = e.target.dataset;
-        if (!e.target.index && e.target.index !== 2) {
+        if (!e.target.dataset.isabclist) {
+          this.isAbcList = true;
           this.singerClassificationList = [];
           this.getSingerList(type, area);
         } else {
+          this.isAbcList = false;
+          this.singerClassificationList = [];
           this.getrecommendSinger();
         }
-        if (e.target.index >= 2) {
-          this.isAbcList = true;
-        }
-        console.log(e);
+
+        // console.log(e.target.dataset.type);
+        // const type = e.tar.dataset.type;
+        // const area = e.tar.dataset.area;
+
+        // if (!e.target.index && e.target.index !== 2) {
+
+        // } else {
+
+        // }
+
+        // console.log(e);
       }
     },
+    // 点击传参
+    ToSingerAlbum(id, name, url) {
+      this.$router.push({
+        name: "singerAlbum",
+        params: {
+          id,
+          name,
+          url,
+        },
+      });
+    },
+    //传值
   },
 };
 </script>
@@ -414,6 +337,7 @@ export default {
         height: 29px;
         line-height: 29px;
         margin: 2px 0;
+        cursor: pointer;
       }
       .active {
         color: #c20c0c;
@@ -431,6 +355,7 @@ export default {
           height: 29px;
           line-height: 29px;
           margin: 2px 0;
+          cursor: pointer;
         }
         .active {
           color: #c20c0c;
@@ -501,6 +426,7 @@ export default {
           float: left;
           margin-right: 18px;
           margin-top: 20px;
+          cursor: pointer;
           .singerNameDetails {
             img {
               height: 130px;
@@ -508,17 +434,21 @@ export default {
             }
             .setIco {
               p {
-                width: 130px;
-                height: 20px;
+                float: left;
+                width: 110px;
+                height: 30px;
                 line-height: 20px;
                 margin-top: 8px;
                 font-size: 12px;
                 color: #000;
-
-                span {
-                  float: right;
-                  color: #c20c0c;
-                }
+              }
+              div {
+                padding-right: 2px;
+                float: right;
+                margin-top: 8px;
+                width: 17px;
+                height: 18px;
+                background: url("../../assets/images/ren.png") no-repeat 0 0;
               }
             }
           }
@@ -540,15 +470,19 @@ export default {
         float: left;
 
         .setSingerName {
-          p {
+          a {
+            margin-right: 5px;
+            float: left;
             height: 20px;
             line-height: 20px;
-            margin-top: 8px;
             font-size: 12px;
             color: #000;
           }
-          span {
-            color: #c20c0c;
+          div {
+            float: right;
+            width: 17px;
+            height: 18px;
+            background: url("../../assets/images/ren.png") no-repeat 0 0;
           }
         }
       }

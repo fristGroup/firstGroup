@@ -1,5 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
+// import Vuex from "vuex";
+// Vue.use(Vuex);
 //引入UI
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
@@ -24,12 +26,19 @@ Vue.prototype.$API = API;
 // 引入懒加载插件
 import VueLazyload from "vue-lazyload";
 // 注册懒加载
+import loading from "./assets/images/la.png";
 Vue.use(VueLazyload, {
-  loading: require("./assets/timg.gif"),
+  loading,
 });
 
 new Vue({
+  // 数据初始化之前
+  beforeCreate() {
+    // 事件总线的方式
+    Vue.prototype.$bus = new Vue();
+  },
   router,
   store,
+
   render: (h) => h(App),
 }).$mount("#app");
