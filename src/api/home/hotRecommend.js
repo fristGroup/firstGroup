@@ -13,4 +13,10 @@ export default {
       },
     });
   },
+  getHotRecommendNav(){
+    return request({
+      url: "/playlist/hot",
+      method: "get",
+    });
+  }
 };

@@ -6,37 +6,51 @@
           <a href="javascript:;">网易云音乐</a>
         </h1>
         <ul class="m-nav">
-          <li>
+          <li
+            :class="{
+              navWraper: $route.path === '/discover' || $route.path === '/',
+            }"
+          >
             <!-- <router-link to="/" class="nav">发现音乐</router-link> -->
             <a href="javascript:;" class="nav" @click="to('/')">发现音乐</a>
-            <i class="triangle"></i>
+            <i
+              :class="{
+                triangle:
+                  $route.path.indexOf('/discover') != -1 || $route.path === '/',
+              }"
+            ></i>
           </li>
-          <li>
+          <li :class="{ navWraper: $route.path === '/mymusic' }">
             <!-- <router-link to="/mymusic" class="nav">我的音乐</router-link> -->
             <a href="javascript:;" class="nav" @click="to('/mymusic')"
               >我的音乐</a
             >
+            <i :class="{ triangle: $route.path === '/mymusic' }"></i>
           </li>
-          <li>
+          <li :class="{ navWraper: $route.path === '/friend' }">
             <!-- <router-link to="/friend" class="nav">朋友</router-link> -->
             <a href="javascript:;" class="nav" @click="to('/friend')">朋友</a>
+            <i :class="{ triangle: $route.path === '/friend' }"></i>
           </li>
-          <li>
+          <li :class="{ navWraper: $route.path === '/shopping' }">
             <!-- <router-link to="/shopping" class="nav">商城</router-link> -->
             <a href="javascript:;" class="nav" @click="to('/shopping')">商城</a>
+            <i :class="{ triangle: $route.path === '/shopping' }"></i>
           </li>
-          <li>
+          <li :class="{ navWraper: $route.path === '/musician' }">
             <!-- <router-link to="/musician" class="nav">音乐人</router-link> -->
             <a href="javascript:;" class="nav" @click="to('/musician')"
               >音乐人</a
             >
+            <i :class="{ triangle: $route.path === '/musician' }"></i>
           </li>
-          <li>
+          <li :class="{ navWraper: $route.path === '/download' }">
             <!-- <router-link to="/download" class="nav">下载客户端</router-link> -->
             <a href="javascript:;" class="nav" @click="to('/download')"
               >下载客户端</a
             >
             <i class="hot"></i>
+            <i :class="{ triangle: $route.path === '/download' }"></i>
           </li>
         </ul>
 
@@ -57,6 +71,11 @@
               onfocus="this.placeholder=''"
               onblur="this.placeholder='音乐/视频/电台/用户'"
             />
+            <div class="searchResult">
+              <div class="userResult">
+                <a href="javascript:;">搜索111相关用户</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -66,14 +85,21 @@
       <div class="wrap">
         <ul class="nav">
           <li>
-            <a href="javascript:;">
-              <em>推荐</em>
-            </a>
+            <router-link to="/discover">
+              <em
+                :class="{
+                  emShow: $route.path === '/discover' || $route.path === '/',
+                }"
+                >推荐</em
+              >
+            </router-link>
           </li>
           <li>
-            <a href="javascript:;">
-              <em>排行榜</em>
-            </a>
+            <router-link to="/discover/toplist">
+              <em :class="{ emShow: $route.path === '/discover/toplist' }"
+                >排行榜</em
+              >
+            </router-link>
           </li>
           <li>
             <a href="javascript:;">
@@ -124,6 +150,7 @@ export default {
   width: 100%;
   .m-top {
     width: 100%;
+    min-width: 1100px;
     // height: 70px;
     background: #242424;
     // border-bottom: 1px solid #000;
@@ -149,13 +176,13 @@ export default {
 
       .m-nav {
         float: left;
-
+        .navWraper {
+          background-color: #000;
+        }
         li {
           position: relative;
           float: left;
-          &:first-child {
-            background-color: #000;
-          }
+
           &:hover {
             background-color: #000;
           }
@@ -250,13 +277,24 @@ export default {
           width: 126px;
           line-height: 16px;
           margin: 7px 0 0 8px;
-
+          position: relative;
           input {
             outline: none;
             width: 90%;
             line-height: 16px;
             border: none;
             font-size: 12px;
+          }
+          .searchResult {
+            position: absolute;
+            width: 240px;
+            top: 59px;
+            z-index: 200;
+            .userResult {
+              height: 17px;
+              padding: 11px 10px;
+              border-bottom: 1px solid #e2e2e2;
+            }
           }
         }
       }
@@ -265,6 +303,7 @@ export default {
 
   .m-subnav {
     width: 100%;
+    min-width: 1100px;
     height: 35px;
     box-sizing: border-box;
     background-color: #c20c0c;
@@ -300,7 +339,7 @@ export default {
               }
             }
           }
-          &:first-child em {
+          .emShow {
             background: #9b0909;
           }
         }

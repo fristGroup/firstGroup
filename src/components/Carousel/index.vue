@@ -1,21 +1,24 @@
 <template>
-  <div class="swiper-container" id="swL" ref="sw">
-    <div class="swiper-wrapper">
-      <div
-        class="swiper-slide"
-        v-for="(carousel, index) in carouselList"
-        :key="index"
-      >
-        <div :style="`backgroundImage:url(${carousel.bgImg})`" class="bgImg">
-          <img :src="carousel.imageUrl" alt />
+  <div class="swiper-outer">
+    <div class="swiper-container" id="swL" ref="sw">
+      <div class="swiper-wrapper">
+        <div
+          class="swiper-slide"
+          v-for="(carousel, index) in carouselList"
+          :key="index"
+        >
+          <div :style="`backgroundImage:url(${carousel.bgImg})`" class="bgImg">
+            <img :src="carousel.imageUrl" alt />
+          </div>
         </div>
       </div>
+      <!-- 如果需要分页器 -->
+      <div class="swiper-pagination"></div>
     </div>
-    <!-- 如果需要分页器 -->
-    <div class="swiper-pagination"></div>
     <!-- 如果需要导航按钮 -->
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
+    <div class="download"></div>
   </div>
 </template>
 <script>
@@ -114,33 +117,67 @@ export default {
 };
 </script>
 <style lang="less" reg="stylesheet/less" scoped>
-.swiper-container {
-  .swiper-wrapper {
-    .swiper-slide {
-      height: 285px;
-      .bgImg {
-        background-size: 6000px;
-        background-position: center center;
-
-        img {
-          width: 730px;
+.swiper-outer {
+  width: 982px;
+  height: 285px;
+  margin: 0 auto;
+  position: relative;
+  .swiper-container {
+    width: 982px;
+    height: 285px;
+    .swiper-wrapper {
+      .swiper-slide {
+        width: 982px;
+        height: 285px;
+        .bgImg {
+          // background-size: 6000px;
+          // background-position: center center;
+          background-color: tan;
+          width: 1100px;
           height: 285px;
-          display: block;
-          margin-left: 270px;
+          img {
+            width: 730px;
+            height: 285px;
+            display: block;
+          }
         }
       }
     }
+
+    .swiper-pagination-bullets {
+      left: -110px;
+    }
   }
   .swiper-button-prev {
-    left: 200px;
-    --swiper-navigation-color: rgb(230, 223, 223);
+    position: absolute;
+    width: 37px;
+    height: 63px;
+    left: -68px;
+    outline:none;
+    --swiper-navigation-color: rgb(204, 199, 199);
+    &:hover{
+      background-color: rgba(218, 215, 215, 0.8);
+    }
   }
   .swiper-button-next {
-    right: 195px;
-    --swiper-navigation-color: rgb(230, 223, 223);
+    position: absolute;
+    width: 37px;
+    height: 63px;
+    right: -68px;
+    outline: none;
+    --swiper-navigation-color: rgb(204, 199, 199);
+    &:hover{
+      background-color: rgba(218, 215, 215, 0.8);
+    }
   }
-  .swiper-pagination-bullets {
-    left: -110px;
+  .download {
+    position: absolute;
+    top: 0;
+    z-index: 20;
+    left: 728px;
+    width: 254px;
+    height: 285px;
+    background: url("./images/download.png") no-repeat 0 0;
   }
 }
 </style>

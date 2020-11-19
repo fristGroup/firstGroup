@@ -6,3 +6,6 @@ export { default as hotRecommend } from "./home/hotRecommend";
 export { default as popularDj } from "./home/popularDj";
 export { default as singers } from "./home/singers";
 export { default as topList } from "./home/topList";
+
+//谢静伟 ---排行榜
+export { default as toplist } from "./toplist";

@@ -4,12 +4,34 @@ import DownLoad from "../views/DownLoad";
 import Musician from "../views/Musician";
 import Friend from "../views/Friend";
 import Shopping from "../views/Shopping";
-
+import TopList from "../views/TopList";
 export default [
   {
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      isHideLine: true,
+    },
+  },
+  {
+    path: "/discover",
+    name: "Home",
+    component: Home,
+    meta: {
+      isHideLine: true,
+    },
+    // children: [
+    //   {
+    //     path: '/discover/toplist',
+    //     component: TopList
+    //   },
+    // ]
+  },
+  {
+    path: "/discover/toplist",
+    component: TopList,
+    name: "topList",
     meta: {
       isHideLine: true,
     },

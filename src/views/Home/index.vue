@@ -2,7 +2,7 @@
   <div class="home">
     <div class="carouselContainer">
       <Carousel :carouselList="carouselList" />
-      <div class="download"></div>
+      <!-- <div class="download"></div> -->
     </div>
     <div class="centerContainer">
       <div class="center">
@@ -10,20 +10,27 @@
           <div class="leftContainer">
             <div class="hotRecommendWrap">
               <div class="hotRecommendNav">
-                <a href="###" class="hotRecommend">热门推荐</a>
+                <a href="javascript:;" class="hotRecommend">热门推荐</a>
                 <div class="navContent">
-                  <a href="###">华语</a>
+                  <span v-for="(item, index) in hotRecommendNav" :key="item.id">
+                    <a href="javascript:;">{{ item.name }}</a>
+                    <span
+                      class="line"
+                      v-if="!(index === hotRecommendNav.length - 1)"
+                      >|</span
+                    >
+                  </span>
+
+                  <!-- <a href="javascript:;">流行</a>
                   <span class="line">|</span>
-                  <a href="###">流行</a>
+                  <a href="javascript:;">摇滚</a>
                   <span class="line">|</span>
-                  <a href="###">摇滚</a>
+                  <a href="javascript:;">民谣</a>
                   <span class="line">|</span>
-                  <a href="###">民谣</a>
-                  <span class="line">|</span>
-                  <a href="###">电子</a>
+                  <a href="javascript:;">电子</a> -->
                 </div>
                 <span class="more">
-                  <a href="###">更多</a>
+                  <a href="javascript:;">更多</a>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -35,9 +42,9 @@
                 >
                   <div class="u-cover">
                     <img v-lazy="hotRecommend.picUrl" alt="" />
-                    <a href="###" class="msk"></a>
+                    <a href="javascript:;" class="msk"></a>
                     <div class="bottom">
-                      <a href="###" class="icon-play"></a>
+                      <a href="javascript:;" class="icon-play"></a>
                       <span class="icon-headset"></span>
                       <span class="nb">{{
                         hotRecommend.playCount / 10000 > 0
@@ -47,7 +54,7 @@
                     </div>
                   </div>
                   <p class="dec">
-                    <a href="###" class="tit">
+                    <a href="javascript:;" class="tit">
                       {{ hotRecommend.name }}
                     </a>
                   </p>
@@ -57,9 +64,9 @@
 
             <div class="newPlateWrap">
               <div class="newPlateNav">
-                <a href="###" class="newPlat">新碟上架</a>
+                <a href="javascript:;" class="newPlat">新碟上架</a>
                 <span class="more">
-                  <a href="###">更多</a>
+                  <a href="javascript:;">更多</a>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -71,9 +78,9 @@
 
             <div class="topListWrap">
               <div class="topListNav">
-                <a href="###" class="topList">榜单</a>
+                <a href="javascript:;" class="topList">榜单</a>
                 <span class="more">
-                  <a href="###">更多</a>
+                  <a href="javascript:;">更多</a>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -86,20 +93,24 @@
                   <dt class="top">
                     <div class="cver">
                       <img v-lazy="top.coverImgUrl" alt="" class="j-img" />
-                      <a href="####" class="msk"></a>
+                      <a href="javascript:;#" class="msk"></a>
                     </div>
                     <div class="tit">
-                      <a href="###">
+                      <a href="javascript:;">
                         {{ top.name }}
                       </a>
                       <div class="btn">
-                        <a href="###" title="播放" class="bg-play"></a>
-                        <a href="###" title="收藏" class="bg-collect"></a>
+                        <a href="javascript:;" title="播放" class="bg-play"></a>
+                        <a
+                          href="javascript:;"
+                          title="收藏"
+                          class="bg-collect"
+                        ></a>
                       </div>
                     </div>
                   </dt>
                   <dd>
-                    <ol v-if='topDetailList[topIndex]'>
+                    <ol v-if="topDetailList[topIndex]">
                       <li
                         v-for="(topDetail, index) in topDetailList[topIndex]
                           .tracks"
@@ -113,19 +124,19 @@
                         <span class="no" :class="{ noTop: index < 3 }">{{
                           index + 1
                         }}</span>
-                        <a href="###">{{ topDetail.name }}</a>
+                        <a href="javascript:;">{{ topDetail.name }}</a>
                         <div
                           class="oper"
                           v-show="currentId === topIndex + '' + topDetail.id"
                         >
-                          <a href="####" title="播放"></a>
-                          <a href="####" title="添加到播放列表"></a>
-                          <a href="####" title="收藏"></a>
+                          <a href="javascript:;#" title="播放"></a>
+                          <a href="javascript:;#" title="添加到播放列表"></a>
+                          <a href="javascript:;#" title="收藏"></a>
                         </div>
                       </li>
                     </ol>
                     <div class="more">
-                      <a href="####">查看全部></a>
+                      <a href="javascript:;#">查看全部></a>
                     </div>
                   </dd>
                 </dl>
@@ -139,17 +150,17 @@
               <p class="note">
                 登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
               </p>
-              <a href="###" class="btn">用户登录</a>
+              <a href="javascript:;" class="btn">用户登录</a>
             </div>
           </div>
           <div class="n-singer">
             <div class="v-hd3">
               <span class="f-fl">入驻歌手</span>
-              <a href="###" class="more">查看全部 ></a>
+              <a href="javascript:;" class="more">查看全部 ></a>
             </div>
             <ul class="n-enter">
               <li v-for="(singer, index) in singersList" :key="singer.id">
-                <a href="####" class="itm">
+                <a href="javascript:;#" class="itm">
                   <div class="head">
                     <img class="j-img" v-lazy="singer.img1v1Url" />
                   </div>
@@ -165,7 +176,7 @@
               </li>
             </ul>
             <div class="toMusicPresonWrap">
-              <a href="###" class="toMusicPresonBtn">
+              <a href="javascript:;" class="toMusicPresonBtn">
                 <i>申请成为网易音乐人</i>
               </a>
             </div>
@@ -174,12 +185,12 @@
             <h3 class="v-hd3">热门主播</h3>
             <ul class="n-hotdj">
               <li v-for="(dj, index) in popularDjList" :key="dj.id">
-                <a href="###" class="cver">
+                <a href="javascript:;" class="cver">
                   <img v-lazy="dj.avatarUrl" alt="" class="j-img" />
                 </a>
                 <div class="info">
                   <p>
-                    <a href="###">{{ dj.nickName }}</a>
+                    <a href="javascript:;">{{ dj.nickName }}</a>
                   </p>
                   <p>{{ dj.nickName }}</p>
                 </div>
@@ -205,6 +216,7 @@ export default {
       currentId: "",
       carouselList: [],
       hotRecommendList: [],
+      hotRecommendNav: [],
       diskImageList: [],
       popularDjList: [],
       singersList: [],
@@ -220,6 +232,8 @@ export default {
     await this.getTopList();
     //获取榜单详情
     this.getTopDetailList();
+    //获取热门推荐的导航栏
+    this.getHotRecommendNav();
     //获取热门推荐
     this.getHotRecommendList();
     //获取新碟上架
@@ -251,6 +265,13 @@ export default {
       // console.log(result);
       if (result.code === 200) {
         this.hotRecommendList = result.result;
+      }
+    },
+    async getHotRecommendNav() {
+      const result = await this.$API.hotRecommend.getHotRecommendNav();
+      // console.log(result);
+      if (result.code === 200) {
+        this.hotRecommendNav = result.tags.slice(0, 5);
       }
     },
     async getDiskImageList() {
@@ -327,18 +348,8 @@ export default {
 .home {
   background: #f5f5f5;
   .carouselContainer {
-    width: 100%;
+    width: 100%;  
     height: 285px;
-    position: relative;
-    .download {
-      position: absolute;
-      top: 0;
-      z-index: 20;
-      right: 268px;
-      width: 254px;
-      height: 285px;
-      background: url("./images/download.png") no-repeat 0 0;
-    }
   }
   .centerContainer {
     width: 980px;
@@ -438,6 +449,9 @@ export default {
                     width: 16px;
                     height: 17px;
                     background: url("./images/icon.png") no-repeat 0 0;
+                    &:hover {
+                      background: url("./images/icon.png") no-repeat 0 -60px;
+                    }
                   }
 
                   .icon-headset {
