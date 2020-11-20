@@ -4,18 +4,21 @@
     <router-view exact></router-view>
     <Footer />
     <a href="#" class="top" title="回到顶部" v-show="isTopShow"></a>
+    <PlayControl />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import PlayControl from "@/components/PlayControl";
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
+    PlayControl,
   },
   data() {
     return {
@@ -47,6 +50,8 @@ export default {
 
 <style lang="less" rel="stylesheet/less" scoped>
 .outer {
+  height: 100%;
+  position: relative;
   .top {
     display: block;
     position: fixed;

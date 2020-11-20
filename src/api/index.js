@@ -9,3 +9,5 @@ export { default as topList } from "./home/topList";
 
 //谢静伟 ---排行榜
 export { default as toplist } from "./toplist";
+//郝永辉---播放和控制栏
+export { default as song } from "./song";

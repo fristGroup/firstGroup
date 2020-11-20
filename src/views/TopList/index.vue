@@ -235,7 +235,7 @@
 </template>
 
 <script>
-import formaDate from "../../utils/formaDate.js";
+import formaDate from "../../utils/formaDate_xjw.js";
 import Rank from "../Rank/index";
 export default {
   name: "TopList",

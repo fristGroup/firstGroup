@@ -1,7 +1,7 @@
 <template>
   <div class="g-topbar">
     <div class="m-top">
-      <div class="m-top-container">
+      <div class="m-top-container clearfix">
         <h1 class="logo">
           <a href="javascript:;">网易云音乐</a>
         </h1>
@@ -70,10 +70,74 @@
               placeholder="音乐/视频/电台/用户"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='音乐/视频/电台/用户'"
+              v-model="options.keywords"
+              @keyup.enter="toSearch"
+              @input="handleInput"
+              @focus="handleFocus"
+              @blur="handleBlur"
             />
-            <div class="searchResult">
-              <div class="userResult">
-                <a href="javascript:;">搜索111相关用户</a>
+            <div class="searchResult" v-show="searchResultShow">
+              <p class="userResult" v-if="this.options.keywords">
+                <a href="javascript:;">搜索{{ options.keywords }}相关用户</a>
+                <i>></i>
+              </p>
+              <div class="rap">
+                <div class="itm" v-if="songsList.length">
+                  <h3 class="clearfix">
+                    <i style="background-position: -35px -300px;"></i>
+                    <em>单曲</em>
+                  </h3>
+                  <ul class="clearfix">
+                    <li
+                      v-for="(song, index) in songsList.slice(0, 3)"
+                      :key="song.id"
+                    >
+                      <a href="javascript:;">{{ song.name }}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="itm" v-if="artList.length">
+                  <h3>
+                    <i style="background-position: -50px -300px;"></i>
+                    <em>歌手</em>
+                  </h3>
+                  <ul class="clearfix">
+                    <li
+                      v-for="(art, index) in artList.slice(0, 3)"
+                      :key="art.id"
+                    >
+                      <a href="javascript:;">{{ art.name }}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="itm" v-if="albumsList.length">
+                  <h3>
+                    <i style=" background-position: -35px -320px;"></i>
+                    <em>专辑</em>
+                  </h3>
+                  <ul class="clearfix">
+                    <li
+                      v-for="(albums, index) in albumsList.slice(0, 3)"
+                      :key="albums.id"
+                    >
+                      <a href="###">{{ albums.name }}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="itm" v-if="songPlayList.length">
+                  <h3>
+                    <i style=" background-position: -50px -320px;"></i>
+                    <em>歌单</em>
+                  </h3>
+                  <ul class="clearfix">
+                    <li
+                      v-for="(songPlay, index) in songPlayList.slice(0, 3)"
+                      :key="songPlay.id"
+                    >
+                      <a href="###">{{ songPlay.name }}</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -127,8 +191,30 @@
   </div>
 </template>
 <script>
+// 引入vuex的辅助函数
+import { mapState } from "vuex";
 export default {
   name: "Header",
+  data() {
+    return {
+      //keyword: "",
+      options: {
+        keywords: "",
+        type: 1,
+        limit: 30,
+        offest: 0,
+      },
+      searchResultShow: false,
+    };
+  },
+  computed: {
+    ...mapState({
+      songsList: (state) => state.search.songsList,
+      albumsList: (state) => state.search.albumsList,
+      artList: (state) => state.search.artList,
+      songPlayList: (state) => state.search.songPlayList,
+    }),
+  },
   methods: {
     open() {
       this.$alert(
@@ -141,6 +227,65 @@ export default {
     },
     to(path) {
       this.$router.push(path);
+    },
+    toSearch() {
+      if (this.options.keywords) {
+        this.$router.push({
+          name: "search",
+          params: { keywords: this.options.keywords },
+        });
+      } else {
+        this.$router.push({ name: "search" });
+      }
+    },
+    // 获取单曲数据
+    getSongsList() {
+      //this.options.keywords = this.$route.params.keyword;
+      // 分发的action
+      this.$store.dispatch("getSongsList", this.options);
+    },
+    // 获取专辑对象
+    getAlbumsList() {
+      //this.options.keywords = this.$route.params.keyword;
+      // 分发的action
+      this.options.type = 10;
+      this.$store.dispatch("getAlbumsList", this.options);
+    },
+    // 获取歌手对象
+    getArtList() {
+      //this.options.keywords = this.$route.params.keyword;
+      // 分发的action
+      this.options.type = 100;
+      this.$store.dispatch("getArtList", this.options);
+    },
+    // 获取歌单对象
+    getSongPlayList() {
+      //this.options.keywords = this.$route.params.keyword;
+      // console.log("执行了")
+
+      // 分发的action
+      this.options.type = 1000;
+      this.$store.dispatch("getSongPlayList", this.options);
+    },
+    handleInput() {
+      // console.log(this.options.keywords)
+      if (this.options.keywords.trim() === "") {
+        this.searchResultShow = false;
+        this.$store.dispatch("clearData");
+        return;
+      }
+      this.searchResultShow = true;
+      this.getSongsList();
+      this.getAlbumsList();
+      this.getSongPlayList();
+      this.getArtList();
+    },
+    handleFocus() {
+      if (this.options.keywords.trim() === "") return;
+      this.searchResultShow = true;
+    },
+    handleBlur() {
+      this.searchResultShow = false;
     },
   },
 };
@@ -158,7 +303,7 @@ export default {
     .m-top-container {
       width: 1100px;
       margin: 0 auto;
-      overflow: hidden;
+      // overflow: hidden;
 
       .logo {
         float: left;
@@ -286,14 +431,65 @@ export default {
             font-size: 12px;
           }
           .searchResult {
+            background-color: white;
             position: absolute;
+            box-sizing: border-box;
+            border: 1px solid #bebebe;
+            border-radius: 4px;
             width: 240px;
-            top: 59px;
+            top: 30px;
+            left: -32px;
             z-index: 200;
             .userResult {
               height: 17px;
               padding: 11px 10px;
               border-bottom: 1px solid #e2e2e2;
+            }
+            .rap {
+              .itm {
+                h3 {
+                  float: left;
+                  width: 52px;
+                  line-height: 17px;
+                  padding: 10px 0 0 10px;
+                  font-weight: normal;
+                  i {
+                    width: 14px;
+                    height: 15px;
+                    float: left;
+                    margin: 2px 4px 0 0;
+                    background: url("./images/icon.png") no-repeat;
+                  }
+
+                  em {
+                    float: left;
+                    line-height: 17px;
+                    font-size: 12px;
+                    font-style: normal;
+                    text-align: left;
+                  }
+                }
+                ul {
+                  margin-left: 62px;
+                  margin-top: -1px;
+                  padding: 6px 0 5px;
+                  border-top: 1px solid #e2e2e2;
+                  border-left: 1px solid #e2e2e2;
+                  li {
+                    width: 100%;
+                    float: left;
+                    a {
+                      display: block;
+                      width: 100%;
+                      text-indent: 12px;
+                      line-height: 24px;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      white-space: nowrap;
+                    }
+                  }
+                }
+              }
             }
           }
         }

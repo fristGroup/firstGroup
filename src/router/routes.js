@@ -5,6 +5,7 @@ import Musician from "../views/Musician";
 import Friend from "../views/Friend";
 import Shopping from "../views/Shopping";
 import TopList from "../views/TopList";
+import Search from '../views/Search'
 export default [
   {
     path: "/",
@@ -70,4 +71,16 @@ export default [
     name: "Friend",
     component: Friend,
   },
+  {
+    path: '/music',
+    name: 'Music',
+    // 路由懒加载
+    component: () => import('@/views/Music')
+  },
+  {
+    //?表是参数可传可不传
+    path: '/search/:keyword?',
+    component: Search,
+    name: 'search'
+},
 ];
