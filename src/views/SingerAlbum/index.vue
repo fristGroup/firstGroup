@@ -7,7 +7,7 @@
             <!-- 大图区域 -->
             <div class="singerBigImg">
               <h2>{{ singerCon.name }}</h2>
-              <img v-lazy="singerCon.url" alt="" />
+              <img v-lazy="singerCon.picUrl" alt="" />
               <div class="mask">
                 <a href="" class="artist-home"></a>
                 <a id="" href="" class="artist-sub"></a>
@@ -30,8 +30,18 @@
               <!-- tab切换内容 1-->
               <div v-show="0 === cur" class="tab1">
                 <div class="buttonPlay">
-                  <a href="javascript;" class="clickPlay"></a>
-                  <a href="javascript;" class="clickCollection"></a>
+                  <!-- 播放 -->
+                  <a
+                    href="javascript:;"
+                    class="clickPlay"
+                    @click="clickPlay"
+                  ></a>
+                  <!-- 添加 -->
+                  <a
+                    href="javascript;"
+                    class="clickCollection"
+                    @click="addList"
+                  ></a>
 
                   <a href="javascript;" class="collectionHot"></a>
                   <a href="javascript;" class="hotSingle"></a>
@@ -52,8 +62,8 @@
                     ></el-table-column>
                     <el-table-column>
                       <template slot-scope="{ row, $index }">
-                        <i class="song-icon"></i>
-                        <a href="javascript:;" style="max-width:200px">{{
+                        <i class="song-icon" @click="playSong(row)"></i>
+                        <a href="javascript:;" style="max-width: 200px">{{
                           row.name
                         }}</a>
                       </template>
@@ -83,7 +93,7 @@
                     :span="6"
                     v-for="item in singerAlbumList"
                     :key="item.picId"
-                    style="padding-top: 20px; padding-buttom: 20px;"
+                    style="padding-top: 20px; padding-buttom: 20px"
                     ><div class="grid-content bg-purple">
                       <img
                         v-lazy="item.picUrl"
@@ -106,7 +116,11 @@
                     :span="6"
                     v-for="(item, index) in singerMVList"
                     :key="index"
-                    style="margin-top: 20px; margin-bottom:20px; cursor: pointer;"
+                    style="
+                      margin-top: 20px;
+                      margin-bottom: 20px;
+                      cursor: pointer;
+                    "
                     ><div class="grid-content bg-purple">
                       <img
                         v-lazy="item.imgurl"
@@ -197,15 +211,14 @@ export default {
   mounted() {
     // console.log(this.$route);
     // var self = this;
-    this.$bus.$on("add", (msg, data) => {
-      // console.log(msg, data);
-      // console.log(msg);
-    });
+    // this.$bus.$on("add", (msg, data) => {
+    //   // console.log(msg, data);
+    //   // console.log(msg);
+    // });
 
     this.singerCon = this.$route.params;
 
     this.singerSongs(this.singerCon.id);
-    // console.log(this.singerId);
   },
   methods: {
     //根据歌手id获取的数据
@@ -217,9 +230,13 @@ export default {
       //获取的专辑列表
       const singerAlbum = await this.$API.singer.reqSingerAlbum(id);
       this.singerAlbumList = singerAlbum.hotAlbums;
+      // console.log(singerAlbum.artist);
+      this.singerCon = singerAlbum.artist;
+
       //获取的专辑MV    reqsingerMV
       const singerMV = await this.$API.singer.reqsingerMV(id);
-      console.log(singerMV);
+
+      // console.log(singerMV);
       this.singerMVList = singerMV.mvs.slice(0, 8);
 
       //获取歌手介绍
@@ -229,7 +246,7 @@ export default {
       //获取相似歌手列表
       const singerBeSimilar = await this.$API.singer.reqsingerBeSimilar(id);
       this.singerBeSimilarList = singerBeSimilar.artists.slice(0, 6);
-      console.log(this.singerBeSimilarList);
+      // console.log(this.singerBeSimilarList);
     },
     //时间戳
     updateTime(time, flag) {
@@ -238,6 +255,19 @@ export default {
     //相似歌手切换
     beSimilarSinger(id) {
       this.singerSongs(id);
+    },
+    //点击播放
+    clickPlay() {
+      this.$store.dispatch("replacePlayList", this.singerSongsList);
+      this.$store.dispatch("setCurrentSong", this.singerSongsList[0].id);
+    },
+    addList() {
+      this.$store.dispatch("addMusicList", this.singerSongsList);
+      this.$bus.$emit("isAddOnList");
+    },
+    playSong(song) {
+      this.$store.dispatch("addSongOfPlayList", song);
+      this.$store.dispatch("setCurrentSong", song.id);
     },
   },
 };

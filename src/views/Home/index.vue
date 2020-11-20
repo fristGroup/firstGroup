@@ -13,7 +13,9 @@
                 <a href="javascript:;" class="hotRecommend">热门推荐</a>
                 <div class="navContent">
                   <span v-for="(item, index) in hotRecommendNav" :key="item.id">
-                    <router-link :to="`/discover/songlist/?cat=${item.name}`">{{ item.name }}</router-link>
+                    <router-link :to="`/discover/songlist/?cat=${item.name}`">{{
+                      item.name
+                    }}</router-link>
                     <span
                       class="line"
                       v-if="!(index === hotRecommendNav.length - 1)"
@@ -30,7 +32,7 @@
                   <a href="javascript:;">电子</a> -->
                 </div>
                 <span class="more">
-                  <a href="javascript:;">更多</a>
+                  <router-link to="/discover/songlist">更多</router-link>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -42,7 +44,10 @@
                 >
                   <div class="u-cover">
                     <img v-lazy="hotRecommend.picUrl" alt="" />
-                    <a href="javascript:;" class="msk"></a>
+                    <router-link
+                      :to="`/songcontentlist/?id=${hotRecommend.id}`"
+                      class="msk"
+                    ></router-link>
                     <div class="bottom">
                       <a
                         href="javascript:;"
@@ -58,9 +63,12 @@
                     </div>
                   </div>
                   <p class="dec">
-                    <a href="javascript:;" class="tit">
+                    <router-link
+                      :to="`/songcontentlist/?id=${hotRecommend.id}`"
+                      class="tit"
+                    >
                       {{ hotRecommend.name }}
-                    </a>
+                    </router-link>
                   </p>
                 </li>
               </ul>
@@ -84,7 +92,7 @@
               <div class="topListNav">
                 <a href="javascript:;" class="topList">榜单</a>
                 <span class="more">
-                  <a href="javascript:;">更多</a>
+                  <router-link to="/discover/toplist">更多</router-link>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -166,7 +174,42 @@
         <div class="right">
           <div class="n-user-profile">
             <div v-if="profile.nickname" class="loginInfo">
-              <h1>登陆成功</h1>
+              <div class="userInfo clearfix">
+                <a href="javscript:;" class="userAvatarUrl">
+                  <img :src="profile.avatarUrl" alt="用户头像" />
+                </a>
+                <div class="info">
+                  <h4>
+                    <a href="javascript:;">{{ profile.nickname }}</a>
+                  </h4>
+                  <!-- <p>
+                    <a href="javascript:;"></a>
+                  </p>
+                  <div></div> -->
+                </div>
+              </div>
+              <div class="dng">
+                <ul>
+                  <li>
+                    <a href="javascript:;">
+                      <strong class="num">{{ profile.eventCount }}</strong>
+                      <span>动态</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:;">
+                      <strong class="num">{{ profile.follows }}</strong>
+                      <span>关注</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:;">
+                      <strong class="num">{{ profile.followeds }}</strong>
+                      <span>粉丝</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="n-myinfo" v-else>
               <p class="note">
@@ -748,6 +791,72 @@ export default {
       width: 250px;
 
       .n-user-profile {
+        .loginInfo {
+          width: 250px;
+          height: 165px;
+          padding-top: 20px;
+          background: url("./images/index.png") no-repeat 0 -270px;
+          overflow: hidden;
+          .userInfo {
+            .userAvatarUrl {
+              float: left;
+              width: 80px;
+              height: 80px;
+              margin-left: 20px;
+              padding: 2px;
+              background: #fff;
+              border: 1px solid #dadada;
+              img {
+                display: block;
+                width: 80px;
+                height: 80px;
+              }
+            }
+            .info {
+              float: left;
+              width: 115px;
+              margin-left: 18px;
+              padding-top: 3px;
+              font-size: 14px;
+              color: #333;
+              p {
+                margin-top: 5px;
+              }
+            }
+          }
+          .dng {
+            ul {
+              margin: 22px 0 0 20px;
+              width: 230px;
+              height: 40px;
+              li {
+                float: left;
+                height: 40px;
+                padding: 0 18px;
+                border-right: 1px solid #e4e4e4;
+                a {
+                  display: block;
+                  color: #666;
+                  .num {
+                    display: block;
+                    font-size: 20px;
+                    font-weight: normal;
+                  }
+                  span {
+                    margin-left: 2px;
+                  }
+                }
+                &:nth-child(1) {
+                  padding-left: 0;
+                }
+                &:nth-child(3) {
+                  padding-right: 0;
+                  border-right: none;
+                }
+              }
+            }
+          }
+        }
         .n-myinfo {
           height: 126px;
           background: url("./images/index.png") no-repeat 0 0;

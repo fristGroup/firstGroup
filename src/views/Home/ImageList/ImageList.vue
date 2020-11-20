@@ -13,11 +13,11 @@
             <a href="###"></a>
           </div>
           <p class="f-thide">
-            <a href="####">{{ diskImg.name }}</a>
+            <a href="javascript:;">{{ diskImg.name }}</a>
           </p>
           <p class="f-thide">
             <span v-for="(singer, index) in diskImg.artists" :key="singer.id">
-              <a href="####">{{ singer.name }}</a>
+              <router-link :to="`/singerAlbum/${singer.id}`">{{ singer.name }}</router-link>
               {{ diskImg.artists[index + 1] ? `&nbsp;/` : "" }}
             </span>
           </p>

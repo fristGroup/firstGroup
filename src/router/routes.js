@@ -83,6 +83,9 @@ export default [
     name: "Music",
     // 路由懒加载
     component: () => import("@/views/Music"),
+    meta: {
+      isHideLine: true,
+    },
   },
   {
     //?表是参数可传可不传

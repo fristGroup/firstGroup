@@ -88,7 +88,9 @@
             <span>{{ newTime(detailList.createTime) }}创建</span>
           </div>
           <div class="thirdFloor">
-            <el-button size="mini" class="firstBtn" @click="toPlay1">播放</el-button>
+            <el-button size="mini" class="firstBtn" @click="toPlay1"
+              >播放</el-button
+            >
             <el-button size="mini" @click="toPlay2">+</el-button>
             <el-button size="mini">收藏</el-button>
             <el-button size="mini">分享</el-button>
@@ -134,9 +136,9 @@
               >
                 <template slot-scope="{ row, $index }">
                   <div class="song-title">
-                    <i class="play-song" @click="toPlay"></i>
+                    <i class="play-song" @click="toPlay(row)"></i>
                     <span class="song-name">
-                      <a href="javascript:;">{{ row.name }}</a>
+                      <router-link :to="`/music/${row.id}`">{{ row.name }}</router-link>
                       <span class="song-small">{{
                         row.alia[0] ? " - (" + row.alia[0] + ")" : ""
                       }}</span>
@@ -171,7 +173,9 @@
                 :show-overflow-tooltip="true"
               >
                 <template slot-scope="{ row, $index }">
-                  <a href="javascript:;" @click="singerDetail(row.ar[0].id)">{{ row.ar[0].name }}</a>
+                  <a href="javascript:;" @click="singerDetail(row.ar[0].id)">{{
+                    row.ar[0].name
+                  }}</a>
                 </template>
               </el-table-column>
               <el-table-column
@@ -575,8 +579,8 @@ export default {
       // console.log(id)
       // 路由跳转传参
       const result = await this.$API.singer.reqSingerAlbum(id);
-      this.$router.push("/singerAlbum/"+id)
-      // this.idArray = 
+      this.$router.push("/singerAlbum/" + id);
+      // this.idArray =
       // this.$router.push({
       //   path: "/singerAlbum",
       //   query: {
@@ -672,6 +676,7 @@ a {
           margin-top: 10px;
           margin-left: -10px;
           .creatTitleContainer {
+            cursor: pointer;
             display: flex;
             p:nth-child(1) {
               margin-top: 2px;
@@ -701,6 +706,7 @@ a {
           margin-top: 10px;
           margin-left: -10px;
           .titleContainer {
+            cursor: pointer;
             display: flex;
             p:nth-child(1) {
               margin-top: 2px;

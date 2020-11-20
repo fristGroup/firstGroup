@@ -119,7 +119,7 @@
                       @click="playSong(row)"
                     ></i>
                     <span class="song-name">
-                      <a href="javascript:;">{{ row.name }}</a>
+                      <router-link :to="`/music/${row.id}`">{{ row.name }}</router-link>
                       <!-- <span class="song-small">{{}}</span> -->
                     </span>
                   </div>
