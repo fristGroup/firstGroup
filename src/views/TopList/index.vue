@@ -263,10 +263,18 @@ export default {
       },
     };
   },
+  watch: {
+    id: {
+      handler(newId, oldId) {
+        this.getSong();
+      },
+    },
+  },
   mounted() {
-    // this.$store.dispatch("getTopLists");
-    this.getSong(this.id);
     this.getCommentList();
+    this.getSong(this.id);
+    this.id = this.$route.params.id;
+    this.getSong();
   },
   methods: {
     getId(idOrUpdate) {

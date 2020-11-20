@@ -1,7 +1,9 @@
 // 导入模块
-import toplist from "./toplist";
+import play from "./play";
+import search from "./search";
 import user from "./user";
 export default {
-  toplist,
+  play,
+  search,
   user,
 };

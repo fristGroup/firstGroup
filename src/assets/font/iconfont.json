@@ -1,10 +1,14 @@
 {
-  "id": "",
-  "name": "",
-  "font_family": "iconfont",
-  "css_prefix_text": "icon-",
+  "i,text": "icon-",
   "description": "",
   "glyphs": [
+    {
+      "icon_id": "422541",
+      "name": "首页_播放＃ffffff透明度80%",
+      "font_class": "shouyebofangffffff",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
     {
       "icon_id": "1027900",
       "name": "评论",
@@ -18,6 +22,34 @@
       "font_class": "guangpan",
       "unicode": "e604",
       "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "1349025",
+      "name": "回收站",
+      "font_class": "huishouzhan",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "1629911",
+      "name": "音量",
+      "font_class": "icon-test",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "1825424",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e7c7",
+      "unicode_decimal": 59335
+    },
+    {
+      "icon_id": "2503015",
+      "name": "音量 ",
+      "font_class": "yinliang",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
     },
     {
       "icon_id": "3611516",
@@ -41,6 +73,27 @@
       "unicode_decimal": 58901
     },
     {
+      "icon_id": "4368826",
+      "name": "暂停",
+      "font_class": "zanting1",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "5115452",
+      "name": "播放",
+      "font_class": "bofang1",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "5121361",
+      "name": "播放",
+      "font_class": "bofang2",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
       "icon_id": "5485282",
       "name": "下载",
       "font_class": "anchuweidianiconquanji_fuzhi-",
@@ -55,11 +108,32 @@
       "unicode_decimal": 58881
     },
     {
+      "icon_id": "6142532",
+      "name": "音量",
+      "font_class": "yinliang1",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "6352099",
+      "name": "音量",
+      "font_class": "yinliang2",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "6381104",
       "name": "文件夹",
       "font_class": "wenjianjia",
       "unicode": "e618",
       "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "8478249",
+      "name": "暂停",
+      "font_class": "zanting2",
+      "unicode": "e637",
+      "unicode_decimal": 58935
     },
     {
       "icon_id": "8724776",
@@ -69,11 +143,46 @@
       "unicode_decimal": 58980
     },
     {
+      "icon_id": "8960875",
+      "name": "回收站",
+      "font_class": "huishouzhan1",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "9212372",
+      "name": "回收站",
+      "font_class": "huishouzhan2",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "9944238",
+      "name": "播放",
+      "font_class": "bofang3",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "10033192",
+      "name": "播放",
+      "font_class": "bofang4",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
       "icon_id": "10085390",
       "name": "艾特",
       "font_class": "aite",
       "unicode": "e745",
       "unicode_decimal": 59205
+    },
+    {
+      "icon_id": "10692916",
+      "name": "播放",
+      "font_class": "bofang5",
+      "unicode": "e676",
+      "unicode_decimal": 58998
     },
     {
       "icon_id": "11488000",
@@ -90,11 +199,32 @@
       "unicode_decimal": 58645
     },
     {
+      "icon_id": "12248057",
+      "name": "音量",
+      "font_class": "yinliang3",
+      "unicode": "e75a",
+      "unicode_decimal": 59226
+    },
+    {
       "icon_id": "12329342",
       "name": "转发",
       "font_class": "zhuanfa1",
-      "unicode": "e611",
-      "unicode_decimal": 58897
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "12384713",
+      "name": "播放",
+      "font_class": "bofang6",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "12445482",
+      "name": "暂停",
+      "font_class": "zanting3",
+      "unicode": "e732",
+      "unicode_decimal": 59186
     },
     {
       "icon_id": "12791676",
@@ -102,6 +232,13 @@
       "font_class": "zhuanfa2",
       "unicode": "e6c8",
       "unicode_decimal": 59080
+    },
+    {
+      "icon_id": "13468672",
+      "name": "播放",
+      "font_class": "bofang7",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
     },
     {
       "icon_id": "13782937",
@@ -121,8 +258,15 @@
       "icon_id": "15022903",
       "name": "转发",
       "font_class": "tubiaozhizuomoban3",
-      "unicode": "e617",
-      "unicode_decimal": 58903
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "15409106",
+      "name": "播放",
+      "font_class": "bofang8",
+      "unicode": "e678",
+      "unicode_decimal": 59000
     },
     {
       "icon_id": "15838432",
@@ -139,11 +283,25 @@
       "unicode_decimal": 58995
     },
     {
+      "icon_id": "15838497",
+      "name": "lock",
+      "font_class": "lock",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
       "icon_id": "15838501",
       "name": "menu",
       "font_class": "menu",
-      "unicode": "e677",
-      "unicode_decimal": 58999
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "15838546",
+      "name": "unlock",
+      "font_class": "unlock",
+      "unicode": "e682",
+      "unicode_decimal": 59010
     },
     {
       "icon_id": "16275843",
@@ -160,11 +318,32 @@
       "unicode_decimal": 58911
     },
     {
+      "icon_id": "17998230",
+      "name": "暂停 停止",
+      "font_class": "zantingtingzhi1",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
       "icon_id": "18091170",
       "name": "点赞",
       "font_class": "zanpress",
       "unicode": "e504",
       "unicode_decimal": 58628
+    },
+    {
+      "icon_id": "18215647",
+      "name": "暂停 停止",
+      "font_class": "zantingtingzhi2",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "18247046",
+      "name": "暂停 停止",
+      "font_class": "zantingtingzhi3",
+      "unicode": "e692",
+      "unicode_decimal": 59026
     }
   ]
 }

@@ -14,7 +14,7 @@
           <div class="card-item">
             <div class="left-img">
               <a href="javascript:;">
-                <img v-lazy="tfl.coverImgUrl" />
+                <img :src="tfl.coverImgUrl" />
               </a>
             </div>
             <p class="name">
@@ -37,7 +37,7 @@
           <div class="card-item">
             <div class="left-img">
               <a href="javascript:;">
-                <img v-lazy="tbl.coverImgUrl" alt="" />
+                <img :src="tbl.coverImgUrl" alt="" />
               </a>
             </div>
             <p class="name">
@@ -74,7 +74,6 @@ export default {
         this.topLastList = list.slice(5);
       }
     },
-
     toTopList(id, update) {
       // console.log(id);
       this.$emit("getId", { id, update });

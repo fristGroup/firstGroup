@@ -130,6 +130,9 @@ html {
     color : rgb(79, 76, 212) !important;
     text-decoration: underline;
 } */
+a:link:hover {
+  text-decoration: underline;
+}
 
 /* 清除浮动 */
 .clearfix::after {
