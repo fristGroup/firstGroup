@@ -201,9 +201,17 @@
             </router-link>
           </li>
           <li>
-            <a href="javascript:;">
+            <!-- <a href="javascript:;">
               <em>歌单</em>
-            </a>
+            </a> -->
+            <router-link to="/discover/songlist">
+              <em
+                :class="{
+                  emShow: $route.path.indexOf('/discover/songlist') != -1,
+                }"
+                >歌单</em
+              >
+            </router-link>
           </li>
           <li>
             <a href="javascript:;">
@@ -292,7 +300,7 @@ export default {
     async tologin() {
       const { phone, password } = this;
       if (phone === "" || password === "") {
-        alert("请输入手机号或密码");
+        this.$message.error("手机号或者密码不能为空");
         return;
       }
       try {
@@ -301,7 +309,9 @@ export default {
         this.phone = "";
         this.password = "";
       } catch (error) {
-        console.log("错误信息");
+        this.phone = "";
+        this.password = "";
+        this.$message.error("密码或者账号错误");
       }
     },
     //退出

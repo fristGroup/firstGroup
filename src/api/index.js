@@ -16,3 +16,5 @@ export { default as song } from "./song";
 export { default as singer } from "./singer";
 //皮杨
 export { default as mymusic } from "./mymusic";
+//刘伟敏
+export { default as songList } from './songlist'

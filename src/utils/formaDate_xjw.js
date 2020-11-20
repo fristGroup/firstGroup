@@ -27,6 +27,9 @@ export default function formaDate(time, flag) {
     case "s":
       dateStr = `${m}:${s}`;
       break;
+    case "y":
+      dateStr = `${y}-${M}-${d}`;
+      break;
     default:
       dateStr = `${y}年${M}月 ${h}:${m}`;
       break;

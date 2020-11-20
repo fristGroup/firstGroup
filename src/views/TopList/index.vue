@@ -27,7 +27,7 @@
               </div>
               <!-- button -->
               <div class="btns">
-                <el-button type="primary" size="mini">
+                <el-button type="primary" size="mini" @click="toPlay1">
                   播放
                 </el-button>
 
@@ -36,7 +36,7 @@
                   size="mini"
                   style="margin-left:-5px;font-size:12px;border-left:1px solid #d3d3d3"
                 >
-                  <span style="font-size:12px">+</span>
+                  <span style="font-size:12px" @click="toPlay2">+</span>
                 </el-button>
 
                 <el-button size="mini" style="margin-left:4px">
@@ -125,9 +125,11 @@
                     style="width:50px;margin-right:14px"
                     alt=""
                   />
-                  <i class="play-song "></i>
+                  <i class="play-song " @click="toPlay(row)"></i>
                   <span class="song-name">
-                    <a href="javascript:;">{{ row.name }}</a>
+                    <a href="javascript:;" @click="toPlay4(row.id)">
+                      {{ row.name }}</a
+                    >
                     <span class="song-small">{{
                       row.alia[0] ? " - (" + row.alia[0] + ")" : ""
                     }}</span>
@@ -141,7 +143,7 @@
                   <span class="song-time">{{ date(row.dt) }} </span>
                   <!-- 图片与事件替换显示 坑  -->
                   <div class="showIcn">
-                    <span class="icn-plus "></span>
+                    <span class="icn-plus " @click="addSong(row)"></span>
                     <span class="icn-collect u-icn"></span>
                     <span class="icn-share u-icn"></span>
                     <span class="icn-download u-icn"></span>
@@ -323,8 +325,32 @@ export default {
         // console.log(this.getCommentLists);
       }
     },
-
-    //分页数据
+    //点击播放小图标
+    toPlay(row) {
+      console.log(row);
+      this.$store.dispatch("addSongOfPlayList", row);
+      this.$store.dispatch("setCurrentSong", row.id);
+    },
+    //点击'播放'
+    toPlay1() {
+      // console.log(this.tracks);
+      // console.log(this.tracks[0]);
+      this.$store.dispatch("replacePlayList", this.tracks);
+      this.$store.dispatch("setCurrentSong", this.tracks[0].id);
+    },
+    //点击'+',添加整个榜单
+    toPlay2() {
+      this.$store.dispatch("addMusicList", this.tracks);
+    },
+    //点击歌曲名字跳转详情页
+    toPlay4(nameId) {
+      this.$router.push(`/music/${nameId}`);
+    },
+    //添加到播放列表
+    addSong(song) {
+      this.$bus.$emit("isAddOnList");
+      this.$store.dispatch("addSongOfPlayList", song);
+    },
   },
   components: {
     Rank,
@@ -481,6 +507,7 @@ export default {
             width: 13px;
             height: 13px;
             background-position: 0 -700px;
+            cursor: pointer;
           }
           .u-icn {
             float: left;
@@ -492,6 +519,7 @@ export default {
             overflow: hidden;
             cursor: pointer;
           }
+
           .icn-collect {
             background-position: 0 -174px;
           }

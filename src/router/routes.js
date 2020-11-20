@@ -9,6 +9,9 @@ import Search from "../views/Search";
 //引入歌手详情页
 import FindSinger from "@/views/FindSinger";
 import SingerAlbum from "@/views/SingerAlbum";
+//歌单详情
+import SongList from "../views/SongList";
+import SongContentList from "../views/SongContentList";
 export default [
   {
     path: "/",
@@ -100,5 +103,23 @@ export default [
     name: "singerAlbum",
     path: "/singerAlbum/:id",
     component: SingerAlbum,
+  },
+  {
+    //歌单页面
+    path: "/discover/songlist",
+    component: SongList,
+    name: "SongList",
+    meta: {
+      isHideLine: true,
+    },
+  },
+  {
+    //歌单详情
+    path: "/songcontentlist/:id?",
+    component: SongContentList,
+    name: "SongContentList",
+    meta: {
+      isHideLine: true,
+    },
   },
 ];

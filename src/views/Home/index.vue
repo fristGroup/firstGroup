@@ -13,7 +13,7 @@
                 <a href="javascript:;" class="hotRecommend">热门推荐</a>
                 <div class="navContent">
                   <span v-for="(item, index) in hotRecommendNav" :key="item.id">
-                    <a href="javascript:;">{{ item.name }}</a>
+                    <router-link :to="`/discover/songlist/?cat=${item.name}`">{{ item.name }}</router-link>
                     <span
                       class="line"
                       v-if="!(index === hotRecommendNav.length - 1)"
@@ -44,7 +44,11 @@
                     <img v-lazy="hotRecommend.picUrl" alt="" />
                     <a href="javascript:;" class="msk"></a>
                     <div class="bottom">
-                      <a href="javascript:;" class="icon-play"></a>
+                      <a
+                        href="javascript:;"
+                        class="icon-play"
+                        @click="playList(hotRecommend.id)"
+                      ></a>
                       <span class="icon-headset"></span>
                       <span class="nb">{{
                         hotRecommend.playCount / 10000 > 0
@@ -100,7 +104,12 @@
                         {{ top.name }}
                       </a>
                       <div class="btn">
-                        <a href="javascript:;" title="播放" class="bg-play"></a>
+                        <a
+                          href="javascript:;"
+                          title="播放"
+                          class="bg-play"
+                          @click="playTop(top.id)"
+                        ></a>
                         <a
                           href="javascript:;"
                           title="收藏"
@@ -131,8 +140,16 @@
                           class="oper"
                           v-show="currentId === topIndex + '' + topDetail.id"
                         >
-                          <a href="javascript:;#" title="播放"></a>
-                          <a href="javascript:;#" title="添加到播放列表"></a>
+                          <a
+                            href="javascript:;#"
+                            title="播放"
+                            @click="playSong(topDetail.id)"
+                          ></a>
+                          <a
+                            href="javascript:;#"
+                            title="添加到播放列表"
+                            @click="addSong(topDetail)"
+                          ></a>
                           <a href="javascript:;#" title="收藏"></a>
                         </div>
                       </li>
@@ -357,6 +374,32 @@ export default {
         topDetailList.push({ tracks: item.playlist.tracks.slice(0, 10) });
       });
       this.topDetailList = topDetailList;
+    },
+    // 添加单曲到播放列表
+    addSong(song) {
+      this.$bus.$emit("isAddOnList");
+      this.$store.dispatch("addSongOfPlayList", song);
+    },
+    // 播放歌单歌曲
+    async playList(id) {
+      // const res = await
+      const res = await this.$API.songList.getsongdetails(id);
+      this.$store.dispatch("replacePlayList", res.playlist.tracks);
+      this.$store.dispatch("setCurrentSong", res.playlist.tracks[0].id);
+    },
+
+    // 播放榜单歌曲
+    async playTop(id) {
+      let result = await this.$API.topList.getTopDetailList(id);
+      let playList = result.playlist.tracks;
+      this.$store.dispatch("replacePlayList", playList);
+      this.$store.dispatch("setCurrentSong", playList[0].id);
+    },
+    // 播放单曲
+    async playSong(id) {
+      const res = await this.$API.song.getMusicDetail(id);
+      this.$store.dispatch("addSongOfPlayList", res.songs[0]);
+      this.$store.dispatch("setCurrentSong", id);
     },
   },
 };
