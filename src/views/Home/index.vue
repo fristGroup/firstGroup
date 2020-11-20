@@ -89,7 +89,6 @@
                   class="blk"
                   v-for="(top, topIndex) in topList"
                   :key="top.id"
-                  @click="goRank(top.id)"
                 >
                   <dt class="top">
                     <div class="cver">
@@ -97,7 +96,7 @@
                       <a href="javascript:;#" class="msk"></a>
                     </div>
                     <div class="tit">
-                      <a href="javascript:;">
+                      <a href="javascript:;" @click="goRank(top.id)">
                         {{ top.name }}
                       </a>
                       <div class="btn">
@@ -125,7 +124,9 @@
                         <span class="no" :class="{ noTop: index < 3 }">{{
                           index + 1
                         }}</span>
-                        <a href="javascript:;">{{ topDetail.name }}</a>
+                        <router-link :to="`/music/${topDetail.id}`">{{
+                          topDetail.name
+                        }}</router-link>
                         <div
                           class="oper"
                           v-show="currentId === topIndex + '' + topDetail.id"
@@ -147,7 +148,10 @@
         </div>
         <div class="right">
           <div class="n-user-profile">
-            <div class="n-myinfo">
+            <div v-if="profile.nickname" class="loginInfo">
+              <h1>登陆成功</h1>
+            </div>
+            <div class="n-myinfo" v-else>
               <p class="note">
                 登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
               </p>
@@ -205,6 +209,8 @@
 </template>
 
 <script>
+// 引入vuex的辅助函数
+import { mapState, mapGetters } from "vuex";
 // 引入的是图片轮播图组件
 import ImageList from "./ImageList/ImageList";
 export default {
@@ -225,6 +231,12 @@ export default {
       topDetailList: [],
       iconShow: false,
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: (state) => state.user.userInfo,
+    }),
+    ...mapGetters(["profile"]),
   },
   async mounted() {
     //获取主页的大轮播图

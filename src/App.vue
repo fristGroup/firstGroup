@@ -2,7 +2,7 @@
   <div class="outer">
     <Header />
     <router-view exact></router-view>
-    <Footer />
+    <Footer v-show="!$route.meta.isHideFooter"/>
     <a href="#" class="top" title="回到顶部" v-show="isTopShow"></a>
     <PlayControl />
   </div>

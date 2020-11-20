@@ -68,7 +68,7 @@ export default {
         e.preventDefault()
       }
 
-      document.onmouseup = (e) => {
+      progressWrap.onmouseup = (e) => {
 
         isClickSlider = false
         e.preventDefault()

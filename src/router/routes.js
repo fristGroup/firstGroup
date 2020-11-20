@@ -6,6 +6,9 @@ import Friend from "../views/Friend";
 import Shopping from "../views/Shopping";
 import TopList from "../views/TopList";
 import Search from "../views/Search";
+//引入歌手详情页
+import FindSinger from "@/views/FindSinger";
+import SingerAlbum from "@/views/SingerAlbum";
 export default [
   {
     path: "/",
@@ -48,9 +51,9 @@ export default [
     path: "/mymusic",
     name: "MyMusic",
     component: MyMusic,
-    // meta: {
-    //   isHideLine: false,
-    // },
+    meta: {
+      isHideFooter: true,
+    },
   },
   {
     path: "/download",
@@ -73,7 +76,7 @@ export default [
     component: Friend,
   },
   {
-    path: "/music",
+    path: "/music/:id",
     name: "Music",
     // 路由懒加载
     component: () => import("@/views/Music"),
@@ -83,5 +86,19 @@ export default [
     path: "/search/:keyword?",
     component: Search,
     name: "search",
+  },
+  {
+    name: "findSinger",
+    path: "/findSinger",
+    component: FindSinger,
+    // 路由懒加载
+    // component: () => import("../views/About.vue"),
+
+    children: [],
+  },
+  {
+    name: "singerAlbum",
+    path: "/singerAlbum/:id",
+    component: SingerAlbum,
   },
 ];

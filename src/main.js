@@ -32,6 +32,11 @@ Vue.use(VueLazyload, {
 });
 
 new Vue({
+  // 数据初始化之前
+  beforeCreate() {
+    // 事件总线的方式
+    Vue.prototype.$bus = new Vue();
+  },
   router,
   store,
   render: (h) => h(App),
