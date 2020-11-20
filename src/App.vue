@@ -1,18 +1,21 @@
 <template>
   <div>
-    <button @click="toRank">跳转排行</button>
+    <Header />
     <router-view></router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 export default {
   name: "App",
-  methods: {
-    toRank() {
-      this.$router.push("/rank");
-    },
+  components: {
+    Header,
+    Footer,
   },
+  methods: {},
 };
 </script>
 

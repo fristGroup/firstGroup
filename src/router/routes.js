@@ -13,8 +13,8 @@ export default [
     component: () => import("../views/About.vue"),
   },
   {
-    path: "/rank",
-    name: "Rank",
-    component: () => import("../views/Rank/index.vue"),
+    path: "/toplist/:id?",
+    name: "TopList",
+    component: () => import("../views/TopList/index.vue"),
   },
 ];
