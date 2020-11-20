@@ -70,16 +70,9 @@
             >{{ profile.nickname }}</el-button
           > -->
           <!-- start -->
-          <div v-if="profile.nickname" style="position: absolute;">
-            <img
-              v-lazy="profile.avatarUrl"
-              style="border-radius:30px;width:30px;height:30px;margin-top:20px"
-            />
-            <span
-              @click="goOut"
-              style="color:#ccc;position: relative;left:10px;top:-10px;cursor: pointer;"
-              >退出</span
-            >
+          <div v-if="profile.nickname" class="logout">
+            <img v-lazy="profile.avatarUrl" />
+            <span @click="goOut">退出</span>
           </div>
 
           <el-button
@@ -219,9 +212,14 @@
             </a>
           </li>
           <li>
-            <a href="javascript:;">
-              <em>歌手</em>
-            </a>
+            <router-link to="/discover/findSinger">
+              <em
+                :class="{
+                  emShow: $route.path.indexOf('/discover/findSinger') != -1,
+                }"
+                >歌手</em
+              >
+            </router-link>
           </li>
           <li>
             <a href="javascript:;">
@@ -483,6 +481,26 @@ export default {
           text-decoration: none;
           &:hover {
             color: #787878;
+          }
+        }
+        .logout {
+          overflow: hidden;
+          img {
+            display: block;
+            float: left;
+            border-radius: 30px;
+            width: 30px;
+            height: 30px;
+            margin-top: 20px;
+          }
+          span {
+            padding-left: 10px;
+            float: left;
+            display: block;
+            color: #ccc;
+            font-size: 12px;
+            line-height: 69px;
+            cursor: pointer;
           }
         }
       }

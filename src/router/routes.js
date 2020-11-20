@@ -92,17 +92,20 @@ export default [
   },
   {
     name: "findSinger",
-    path: "/findSinger",
+    path: "/discover/findSinger",
     component: FindSinger,
-    // 路由懒加载
-    // component: () => import("../views/About.vue"),
-
     children: [],
+    meta: {
+      isHideLine: true,
+    },
   },
   {
     name: "singerAlbum",
     path: "/singerAlbum/:id",
     component: SingerAlbum,
+    meta: {
+      isHideLine: true,
+    },
   },
   {
     //歌单页面

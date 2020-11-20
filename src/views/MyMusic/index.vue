@@ -20,7 +20,7 @@
               v-for="(item, index) in userList"
               :key="item.id"
             >
-            <div class="creatTitleContainer">
+              <div class="creatTitleContainer">
                 <div>
                   <img :src="item.coverImgUrl" alt="" />
                 </div>
@@ -88,21 +88,17 @@
             <span>{{ newTime(detailList.createTime) }}创建</span>
           </div>
           <div class="thirdFloor">
-            <el-button size="mini" class="firstBtn">播放</el-button>
-            <el-button size="mini">+</el-button>
-            <el-button size="mini">收藏({{ detailList.playCount }})</el-button>
-            <el-button size="mini">分享({{ detailList.shareCount }})</el-button>
+            <el-button size="mini" class="firstBtn" @click="toPlay1">播放</el-button>
+            <el-button size="mini" @click="toPlay2">+</el-button>
+            <el-button size="mini">收藏</el-button>
+            <el-button size="mini">分享</el-button>
             <el-button size="mini">下载</el-button>
-            <a href="#Scomment"
-              ><el-button size="mini"
-                >评论({{ detailList.subscribedCount }}))</el-button
-              ></a
-            >
+            <a href="#Scomment"><el-button size="mini">评论</el-button></a>
           </div>
           <span class="fourthFloor">介绍：{{ detailList.description }}</span>
         </div>
       </div>
-      <div class="musicContainer" >
+      <div class="musicContainer">
         <div class="musicTitle" v-if="detailList.tracks">
           <span>歌曲列表</span>
           <span>{{ detailList.tracks.length }} 首歌</span>
@@ -126,15 +122,19 @@
               :header-cell-style="tableHeaderStyle"
               :cell-style="{ padding: '5px' }"
               stripe
-              style="width: 100%;border-collapse: collapse;
-    border-spacing: 0;"
+              style="width: 100%; border-collapse: collapse; border-spacing: 0"
             >
               <el-table-column type="index" label="" width="78">
               </el-table-column>
-              <el-table-column label="标题" width="230"  :show-overflow-tooltip='true'>
+              <el-table-column
+                label="标题"
+                width="230"
+                :show-overflow-tooltip="true"
+                @click="toPlay4(row.id)"
+              >
                 <template slot-scope="{ row, $index }">
-                  <div class="song-title ">
-                    <i class="play-song " @click="toPlay"></i>
+                  <div class="song-title">
+                    <i class="play-song" @click="toPlay"></i>
                     <span class="song-name">
                       <a href="javascript:;">{{ row.name }}</a>
                       <span class="song-small">{{
@@ -144,11 +144,16 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column label="时长" width="111" class="timer"  :show-overflow-tooltip='true'>
+              <el-table-column
+                label="时长"
+                width="111"
+                class="timer"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="{ row, $index }">
                   <span class="song-time">{{ date(row.dt) }}</span>
                   <div class="showImg">
-                    <a class="el-icon-plus"></a>
+                    <a class="el-icon-plus" @click="addSong(row)"></a>
                     <a
                       type="text"
                       @click="dialogTableVisible = true"
@@ -159,12 +164,21 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column label="歌手" width="103" @click="singerDetail"  :show-overflow-tooltip='true'>
+              <el-table-column
+                label="歌手"
+                width="103"
+                @click="singerDetail"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="{ row, $index }">
-                  <a href="javascript:;">{{ row.ar[0].name }}</a>
+                  <a href="javascript:;" @click="singerDetail(row.ar[0].id)">{{ row.ar[0].name }}</a>
                 </template>
               </el-table-column>
-              <el-table-column label="专辑" width="183"  :show-overflow-tooltip='true'>
+              <el-table-column
+                label="专辑"
+                width="183"
+                :show-overflow-tooltip="true"
+              >
                 <template slot-scope="{ row, $index }">
                   <a href="javascript:;">{{ row.al.name }}</a>
                 </template>
@@ -317,6 +331,7 @@
 <script>
 // {{ item.time | formatDate('YYYY-MM-DD HH:mm:ss')}}
 import formaDate from "../../utils/formaDate.js";
+import { mapState } from "vuex";
 // import formaDate from "../../utils/formaDate.js";
 export default {
   name: "myMusic",
@@ -353,6 +368,9 @@ export default {
         padding: "6px 5px",
         border: "1px solid #d3d3d3",
       },
+      cursor: 0,
+      commentId: 1407551413,
+      page: 1,
       showTime: false, //显示时间，默认显示
       showPlay: true, //显示图标，默认不显示
       hideUl: [], //歌单是一个数组
@@ -378,16 +396,26 @@ export default {
       topDetailList: [], //排行榜中的歌单
     };
   },
+  computed: {
+    ...mapState({
+      userInfo: (state) => state.user.userInfo,
+    }),
+  },
   mounted() {
-    // 获取评论
-    this.getComment();
-    this.getHotMusic();
-    this.switchPage(this.id);
-    // this.getPerList(); //获取精品歌单
-    this.reqTopList(); //获取排行榜
-    // this.reqTopDetail(this.listId);//获取榜单详情
+    this.init();
   },
   methods: {
+    init() {
+      if (this.userInfo.account) {
+        this.getHotMusic(this.userInfo.account.id);
+      } else {
+        this.userList = [];
+      }
+      this.getComment();
+      this.switchPage(this.id);
+      // this.getPerList(); //获取精品歌单
+      this.reqTopList();
+    },
     // 删除新建歌单
     del(index) {
       this.$confirm("此操作将删除此歌单, 是否继续?", "提示", {
@@ -401,7 +429,7 @@ export default {
           type: "success",
           message: "删除成功!",
         });
-        
+
         // this.detailList = this.userList[0];
         // this.getHotMusic()
       });
@@ -419,7 +447,7 @@ export default {
           type: "success",
           message: "删除成功!",
         });
-         this.detailList = this.topList[0];
+        this.detailList = this.topList[0];
         // this.switchAllTop(this.listId)
       });
     },
@@ -441,22 +469,21 @@ export default {
     },
     // 获取精彩评论
     async getComment() {
-      const id = this.listId
+      const id = this.listId;
       const reuslt = await this.$API.mymusic.getMusicComment();
       this.commentList = reuslt.hotComments;
       // this.commentList = result.comments
     },
-
     // 获取用户歌单
     async getHotMusic(uid) {
       const result = await this.$API.mymusic.getHotList(uid);
       this.userList = result.playlist;
       // console.log(this.userList,'用户歌单');
     },
-    // 获取歌手50首热门歌曲
-    // async getSingerList() {
-    //   const result = await this.$API.test.getSingerMusic();
-    //   this.songsList = result.songs;
+
+    // 获取用户信息
+    // gerUserInfo(){
+    //   this.$store.dispatch('LoginUserInfo',{phone,password})
     // },
     //控制创建的歌单显示或隐藏
     handleShow() {
@@ -471,7 +498,6 @@ export default {
       const result = await this.$API.mymusic.getListDetail(id);
       if (result.code === 200) {
         this.detailList = result.playlist;
-        console.log(this.detailList,'歌单歌曲');
       }
     },
 
@@ -480,16 +506,11 @@ export default {
       const result = await this.$API.mymusic.getAllTopDetail(id);
       if (result.code === 200) {
         this.detailList = result.playlist;
-        this.singerId = result.playlist.tracks[0].ar[0].id
+        this.singerId = result.playlist.tracks[0].ar[0].id;
         console.log(this.detailList, "nnn");
-        this.listId = id;  
+        this.listId = id;
       }
     },
-    // // 获取精品歌单
-    // async getPerList() {
-    //   const result = await this.$API.test.getPerList();
-    //   this.perfectList = result.playlists;
-    // },
     // 新建歌单
     open() {
       this.$prompt("新建歌单", "提示", {
@@ -500,7 +521,6 @@ export default {
           this.userList.push({
             name: value,
             coverImgUrl: "/per6.jpeg",
-
           });
           this.$message({
             type: "success",
@@ -520,15 +540,15 @@ export default {
       this.commentList.unshift({
         content: this.commentText,
         user: {
-          avatarUrl: "/avatar.png",
+          avatarUrl: this.userInfo.profile.avatarUrl,
           nickname: "同桌你好坏",
         },
         time: Date.now(),
         // name:'同桌你好坏',
         // time:Date.now(),
       });
-        // 清空输入框
-        this.commentText = "";
+      // 清空输入框
+      this.commentText = "";
     },
     // 歌曲时长
     date(time) {
@@ -551,42 +571,78 @@ export default {
       }
     },
     // 查看歌手详情
-    async singerDetail(){
+    async singerDetail(id) {
+      // console.log(id)
       // 路由跳转传参
-      this.$router.replace({path:'/singerAlbum',query:{}})
+      const result = await this.$API.singer.reqSingerAlbum(id);
+      this.$router.push("/singerAlbum/"+id)
+      // this.idArray = 
+      // this.$router.push({
+      //   path: "/singerAlbum",
+      //   query: {
+      //     // id,
+      //     // name:result.artist.name,
+      //     // url:result.artist.picUrl,
+      //   },
+      // });
     },
 
-    // 播放
-    toPlay(){
-
-      console.log('播放');
+    // 点击播放小图标
+    toPlay(row) {
+      this.$store.dispatch("addSongOfPlayList", row);
+      this.$store.dispatch("setCurrentSong", row.id);
     },
+
+    //点击'播放'
+    toPlay1() {
+      // console.log(this.tracks);
+      // console.log(this.tracks[0]);
+      this.$store.dispatch("replacePlayList", this.detailList.tracks);
+      this.$store.dispatch("setCurrentSong", this.detailList.tracks[0].id);
+      console.log(this.detailList.tracks);
+    },
+    //点击'+',添加整个榜单
+    toPlay2() {
+      this.$bus.$emit("isAddOnList");
+      this.$store.dispatch("addMusicList", this.detailList.tracks);
+    },
+    //点击歌曲名字跳转详情页
+    toPlay4(nameId) {
+      this.$router.push(`/music/${nameId}`);
+    },
+    //添加到播放列表
+    addSong(song) {
+      this.$bus.$emit("isAddOnList");
+      this.$store.dispatch("addSongOfPlayList", song);
+      console.log("添加");
+    },
+
     handleSizeChange(val) {
       // 更新每页条数的数据
-      this.limit = val
+      this.limit = val;
       // 重新获取数据
       this.getComment();
     },
   },
-  watch:{
-    commentText(val){
-      console.log(val);
-    }
-  }
+  watch: {
+    userInfo() {
+      this.init();
+    },
+  },
 };
 </script>
-
 <style lang="less" rel="stylesheet/less" scoped>
 a {
   text-decoration: none;
 }
 .container {
-  width: 982;
+  margin: 0 auto;
+  width: 982px;
+  position: relative;
+  display: flex;
+
   .sidebar {
-    position: fixed;
-    top: 160px;
-    bottom: 0;
-    left: 192px;
+    padding-top: 30px;
     width: 240px;
     border-right: 1px solid #e4e6e9;
     border-left: 1px solid #e4e6e9;
@@ -671,13 +727,8 @@ a {
     }
   }
   .content {
-    position: fixed;
-    top: 120px;
-    right: 192px;
-    bottom: 0;
     left: 411px;
-    overflow-y: auto;
-    min-width: 730px;
+    border: 1px solid #ccc;
     margin-right: -10px;
     .headerContent {
       display: flex;
@@ -719,8 +770,12 @@ a {
           }
         }
         .thirdFloor {
+          display: flex;
           margin-left: -10px;
           margin-bottom: 20px;
+          .el-button + .el-button {
+            margin: 0px;
+          }
           button:nth-child(1) {
             background-color: blue;
             color: white;
@@ -771,6 +826,9 @@ a {
           border: 1px solid #d3d3d3;
           margin-bottom: 40px;
           margin-left: 18px;
+          .el-table {
+            margin-left: 1px;
+          }
           .song-time {
             display: block;
           }
@@ -973,9 +1031,6 @@ a {
     }
   }
   .toTop {
-    position: fixed;
-    right: 100px;
-    height: 100%;
     width: 100%;
     background-color: #f2f5f6;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);

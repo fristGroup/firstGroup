@@ -1,181 +1,200 @@
 <template>
-    <div>
-        <!-- <Header /> -->
-  <div class="song-playList clearFix">
-    <div class="playList-content">
-      <div class="playList-left">
-        <!-- 左侧内容 -->
-        <div class="left-content clearFix">
-          <div class="left-content-header">
-            <div class="song-img">
-              <img :src="this.coverImgUrl" alt="" />
-              <span class="msk"></span>
-            </div>
-            <div class="content">
-              <div class="content-right">
-                <div class="content-R-hd clearFix">
-                  <i class="song-icon">
-                    <span></span>
-                  </i>
-                  <div class="tit">
-                    <h2>{{ name }}</h2>
+  <div>
+    <!-- <Header /> -->
+    <div class="song-playList clearFix">
+      <div class="playList-content">
+        <div class="playList-left">
+          <!-- 左侧内容 -->
+          <div class="left-content clearFix">
+            <div class="left-content-header">
+              <div class="song-img">
+                <img :src="this.coverImgUrl" alt="" />
+                <span class="msk"></span>
+              </div>
+              <div class="content">
+                <div class="content-right">
+                  <div class="content-R-hd clearFix">
+                    <i class="song-icon">
+                      <span></span>
+                    </i>
+                    <div class="tit">
+                      <h2>{{ name }}</h2>
+                    </div>
                   </div>
-                </div>
-                <div class="user clearFix">
-                  <a class="face" href="javascript:;">
-                    <img :src="this.creator.avatarUrl" alt="" />
-                  </a>
-                  <span class="name">
-                    <a href="javascript:;">{{ creator.nickname }}</a>
-                  </span>
-                  <span class="time">{{updateyearTime(trackUpdateTime)}}&nbsp;创建</span>
-                </div>
-                <div class="song-content clearFix">
-                  <a href="javascript:;" class="play-btn">
-                    <i>
-                      <em class="ply"></em>
-                      播放
-                    </i>
-                  </a>
-                  <a href="javascript:;" class="add song-content-btn"></a>
-                  <a class="favorite song-content-btn" href="javascript:;">
-                    <i class="song-content-btn"
-                      >({{ songdetails.playlist.subscribedCount }})</i
+                  <div class="user clearFix">
+                    <a class="face" href="javascript:;">
+                      <img :src="this.creator.avatarUrl" alt="" />
+                    </a>
+                    <span class="name">
+                      <a href="javascript:;">{{ creator.nickname }}</a>
+                    </span>
+                    <span class="time"
+                      >{{ updateyearTime(trackUpdateTime) }}&nbsp;创建</span
                     >
-                  </a>
-                  <a href="javascript:;" class="share song-content-btn">
-                    <i class="song-content-btn"
-                      >({{ songdetails.playlist.shareCount }})</i
-                    >
-                  </a>
-                  <a href="javascript:;" class="dowm song-content-btn">
-                    <i class="song-content-btn">下载</i>
-                  </a>
-                  <a href="javascript:;" class="comment song-content-btn">
-                    <i class="song-content-btn">
-                      (
-                      <span>{{ songdetails.playlist.commentCount }}</span>
-                      )
-                    </i>
-                  </a>
-                </div>
-                <div class="tags clearFix">
-                  <b>标签：</b>
-                  <a
-                    href="javascript:;"
-                    class="u-tag"
-                    v-for="(item, index) in tags"
-                    :key="index"
+                  </div>
+                  <div
+                    class="song-content clearFix"
+                    v-if="songdetails.playlist"
                   >
-                    <i>{{ item }}</i>
-                  </a>
+                    <a href="javascript:;" class="play-btn" @click="toPlay">
+                      <i>
+                        <em class="ply"></em>
+                        播放
+                      </i>
+                    </a>
+                    <a
+                      href="javascript:;"
+                      class="add song-content-btn"
+                      @click="addList"
+                    ></a>
+                    <a class="favorite song-content-btn" href="javascript:;">
+                      <i class="song-content-btn"
+                        >({{ songdetails.playlist.subscribedCount }})</i
+                      >
+                    </a>
+                    <a href="javascript:;" class="share song-content-btn">
+                      <i class="song-content-btn"
+                        >({{ songdetails.playlist.shareCount }})</i
+                      >
+                    </a>
+                    <a href="javascript:;" class="dowm song-content-btn">
+                      <i class="song-content-btn">下载</i>
+                    </a>
+                    <a href="javascript:;" class="comment song-content-btn">
+                      <i class="song-content-btn">
+                        (
+                        <span>{{ songdetails.playlist.commentCount }}</span>
+                        )
+                      </i>
+                    </a>
+                  </div>
+                  <div class="tags clearFix">
+                    <b>标签：</b>
+                    <a
+                      href="javascript:;"
+                      class="u-tag"
+                      v-for="(item, index) in tags"
+                      :key="index"
+                    >
+                      <i>{{ item }}</i>
+                    </a>
+                  </div>
+                  <p class="dec" v-if="songdetails.playlist">
+                    <b>介绍：</b>
+                    {{ songdetails.playlist.description }}
+                  </p>
                 </div>
-                <p class="dec">
-                  <b>介绍：</b>
-                  {{ songdetails.playlist.description }}
-                </p>
               </div>
             </div>
+            <!--                歌曲歌单-->
+            <!-- 表格 -->
           </div>
-          <!--                歌曲歌单-->
-          <!-- 表格 -->
-        </div>
 
-        <div class="zzz">
-          <el-table
-            :data="tracks"
-            :span="24"
-            :row-style="{
-              height: '32px',
-              background: '##e6e6e6',
-              border: 'none',
-              fontSize: '12px',
-            }"
-            :header-cell-style="tableHeaderStyle"
-            :cell-style="{ padding: '5px' }"
-            stripe
-            style="width: 100%; border-collapse: collapse; border-spacing: 0;margin-top:20px"
-          >
-            <el-table-column type="index" label="" width="78">
-            </el-table-column>
-            <el-table-column label="歌曲标题" width="260">
-              <template slot-scope="{ row, $index }">
-                <div class="song-title clearFix">
-                  <i class="play-song"></i>
-                  <span class="song-name">
-                    <a href="javascript:;">{{ row.name }}</a>
-                    <!-- <span class="song-small">{{}}</span> -->
-                  </span>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="时长" width="90">
-              <template slot-scope="{ row, $index }">
-                <span class="song-time">{{ updateTime(row.dt) }} </span>
-                <!-- 图片与事件替换显示 坑  -->
-                <div class="showIcn">
-                  <span class="icn-plus"></span>
-                  <span class="icn-collect u-icn"></span>
-                  <span class="icn-share u-icn"></span>
-                  <span class="icn-download u-icn"></span>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="歌手" width>
-              <template slot-scope="{ row, $index }">
-                <a href="javascript:;">{{ row.ar[0].name }}</a>
-              </template>
-            </el-table-column>
-            <el-table-column label="专辑" width>
-              <template slot-scope="{ row, $index }">
-                <a href="javascript:;">{{ row.ar[0].name }}</a>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div class="zzz">
+            <el-table
+              :data="tracks"
+              :span="24"
+              :row-style="{
+                height: '32px',
+                background: '##e6e6e6',
+                border: 'none',
+                fontSize: '12px',
+              }"
+              :header-cell-style="tableHeaderStyle"
+              :cell-style="{ padding: '5px' }"
+              stripe
+              style="
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+                margin-top: 20px;
+              "
+            >
+              <el-table-column type="index" label=""> </el-table-column>
+              <el-table-column label="歌曲标题" width="200">
+                <template slot-scope="{ row, $index }">
+                  <div class="song-title clearFix">
+                    <i
+                      class="iconfont icon-bofang3 playSong"
+                      @click="playSong(row)"
+                    ></i>
+                    <span class="song-name">
+                      <a href="javascript:;">{{ row.name }}</a>
+                      <!-- <span class="song-small">{{}}</span> -->
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="时长" width="90">
+                <template slot-scope="{ row, $index }">
+                  <span class="song-time">{{ updateTime(row.dt) }} </span>
+                  <!-- 图片与事件替换显示 坑  -->
+                  <div class="showIcn">
+                    <span class="icn-plus"></span>
+                    <span class="icn-collect u-icn"></span>
+                    <span class="icn-share u-icn"></span>
+                    <span class="icn-download u-icn"></span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="歌手" width>
+                <template slot-scope="{ row, $index }">
+                  <a href="javascript:;">{{ row.ar[0].name }}</a>
+                </template>
+              </el-table-column>
+              <el-table-column label="专辑" width>
+                <template slot-scope="{ row, $index }">
+                  <a href="javascript:;">{{ row.ar[0].name }}</a>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </div>
+      </div>
+      <div class="right-content clearFix">
+        <div class="right-content-list">
+          <h3>喜欢这个歌单的人</h3>
+          <ul class="userlike clearFix">
+            <li
+              class="userlike-everyone"
+              v-for="(item, index) in subscribers"
+              :key="index"
+            >
+              <a href="javascript:;" :title="item.nickname">
+                <img :src="item.avatarUrl" />
+              </a>
+            </li>
+          </ul>
+          <h3>相关推荐</h3>
+          <ul class="tuijian">
+            <li class="tuijian-everyone">
+              <div class="tuijian-img">
+                <a href="javascript:;">
+                  <img
+                    src="../../assets/images/109951165322438262.jpg"
+                    alt=""
+                  />
+                </a>
+              </div>
+              <div class="tuijian-info">
+                <p>花海</p>
+                <p><span>by</span>&nbsp;网抑云</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="right-content clearFix">
-      <div class="right-content-list">
-        <h3>喜欢这个歌单的人</h3>
-        <ul class="userlike clearFix">
-          <li
-            class="userlike-everyone"
-            v-for="(item, index) in subscribers"
-            :key="index"
-          >
-            <a href="javascript:;" :title="item.nickname">
-              <img :src="item.avatarUrl" />
-            </a>
-          </li>
-        </ul>
-        <h3>相关推荐</h3>
-        <ul class="tuijian">
-          <li class="tuijian-everyone">
-            <div class="tuijian-img">
-              <a href="javascript:;">
-                <img src="../../assets/images/109951165322438262.jpg" alt="" />
-              </a>
-            </div>
-            <div class="tuijian-info">
-              <p>花海</p>
-              <p><span>by</span>&nbsp;网抑云</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- <Footer /> -->
+    <!-- <Footer /> -->
   </div>
 </template>
 <script>
-import formaDate from "../../utils/formaDate_xjw";
+import formaDate from "../../utils/formaDate_xjw"
 // import Header from "../../components/Header";
 // import Footer from "../../components/Footer";
 export default {
   name: "SongContentList",
-  data() {
+  data () {
     return {
       tableHeaderStyle: {
         background: "#f5f5f5",
@@ -191,41 +210,57 @@ export default {
       tracks: [],
       // 歌单详情标签
       tags: [],
-      coverImgUrl:"",
-      name:"",
-      trackUpdateTime:""
-    };
+      coverImgUrl: "",
+      name: "",
+      trackUpdateTime: "",
+    }
   },
   // components: {
   //   Header,
   //   Footer,
   // },
-  async mounted() {
-    console.log(this.$route.query.id);
-    const { id } = this.$route.query;
-    console.log(id);
-    const ruselt = await this.$API.songList.getsongdetails(id);
-    this.songdetails = ruselt;
-    this.tracks = ruselt.playlist.tracks;
-    this.creator = ruselt.playlist.creator;
-    this.subscribers = ruselt.playlist.subscribers;
-    this.tags = ruselt.playlist.tags;
-    this.coverImgUrl = ruselt.playlist.coverImgUrl;
-    this.name = ruselt.playlist.name;
+  async mounted () {
+    console.log(this.$route.query.id)
+    const { id } = this.$route.query
+    console.log(id)
+    const ruselt = await this.$API.songList.getsongdetails(id)
+    this.songdetails = ruselt
+    this.tracks = ruselt.playlist.tracks
+    this.creator = ruselt.playlist.creator
+    this.subscribers = ruselt.playlist.subscribers
+    this.tags = ruselt.playlist.tags
+    this.coverImgUrl = ruselt.playlist.coverImgUrl
+    this.name = ruselt.playlist.name
     this.trackUpdateTime = ruselt.playlist.trackUpdateTime
   },
 
   methods: {
-    updateTime(time) {
-      return formaDate(time, "s");
+    addList () {
+      this.$store.dispatch("addMusicList", this.tracks)
+      this.$bus.$emit("isAddOnList")
     },
-    updateyearTime(time) {
-      return formaDate(time, "y");
+    toPlay () {
+      this.$store.dispatch("replacePlayList", this.tracks)
+      this.$store.dispatch("setCurrentSong", this.tracks[0].id)
     },
+    updateTime (time) {
+      return formaDate(time, "s")
+    },
+    updateyearTime (time) {
+      return formaDate(time, "y")
+    },
+    playSong (song) {
+      this.$store.dispatch('addSongOfPlayList', song)
+      this.$store.dispatch('setCurrentSong', song.id)
+    }
   },
 };
 </script>
 <style scoped lang="less">
+.playSong {
+  cursor: pointer;
+  margin-right: 10px;
+}
 .song-playList {
   width: 980px;
   min-height: 700px;
@@ -639,6 +674,7 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     .song-name {
+      padding-left: 5px;
       color: #333;
       max-width: 200px;
       a {
@@ -650,25 +686,22 @@ export default {
     }
   }
   // 播放图
-  
- 
+
   .showIcn {
-    display: block;
-    
-    }
-   
-    .icn-collect {
-      background-position: 0 -174px;
-    }
-    .icn-share {
-      background-position: 0 -195px;
-    }
-    .icn-download {
-      background-position: -81px -174px;
-    }
-  }
-  .song-time {
     display: block;
   }
 
+  .icn-collect {
+    background-position: 0 -174px;
+  }
+  .icn-share {
+    background-position: 0 -195px;
+  }
+  .icn-download {
+    background-position: -81px -174px;
+  }
+}
+.song-time {
+  display: block;
+}
 </style>

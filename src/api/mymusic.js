@@ -5,8 +5,8 @@ export default {
       return request.get(`/comment/music?id=186016&limit=4`)
     },
     // 获取用户歌单
-    getHotList:()=>{
-      return request.get(`/user/playlist?uid=32953014&limit=4`)
+    getHotList:(uid)=>{
+      return request.get(`/user/playlist?uid=${uid}&limit=4`)
     },
   
     // 获取歌单详情

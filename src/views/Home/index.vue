@@ -182,7 +182,7 @@
             </div>
             <ul class="n-enter">
               <li v-for="(singer, index) in singersList" :key="singer.id">
-                <a href="javascript:;#" class="itm">
+                <router-link :to="`/singerAlbum/${singer.id}`" class="itm">
                   <div class="head">
                     <img class="j-img" v-lazy="singer.img1v1Url" />
                   </div>
@@ -194,7 +194,7 @@
                       {{ singer.singerInfo }}
                     </p>
                   </div>
-                </a>
+                </router-link>
               </li>
             </ul>
             <div class="toMusicPresonWrap">

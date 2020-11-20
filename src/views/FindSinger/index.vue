@@ -318,7 +318,7 @@ export default {
   width: 50%;
   border: 1px solid #cccccc;
   // min-width: 980px;
-  min-width: 780px;
+  min-width: 980px;
   margin: 0 auto;
   padding: 0 10px;
 }

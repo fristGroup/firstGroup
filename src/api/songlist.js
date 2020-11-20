@@ -13,9 +13,10 @@ export default {
     );
   },
   // 获取歌单详情
-  getsongdetails:(id)=>{
-    return request.get(
-      `/playlist/detail/?id=${id}`
-    )
-  }
+  getsongdetails: (id) => {
+    return request.get(`/playlist/detail/?id=${id}`);
+  },
+  getrelatedlist: (id) => {
+    return request.get(`/related/playlist/?id=${id}`);
+  },
 };

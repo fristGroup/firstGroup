@@ -207,9 +207,12 @@ export default {
       if (nodeTarget.nodeName === "A") {
         const { id } = nodeTarget.dataset;
         const ruselt = await this.$API.songList.getsongdetails(id);
-        console.log(ruselt);
-        const { trackIds } = ruselt.playlist;
-        this.trackIds = trackIds;
+        // console.log(ruselt);
+        const { tracks } = ruselt.playlist;
+        this.tracks = tracks;
+        console.log(this.tracks);
+        this.$store.dispatch("replacePlayList", this.tracks);
+        this.$store.dispatch("setCurrentSong", this.tracks[0].id);
       }
     },
     toall(e) {
@@ -252,7 +255,9 @@ export default {
       const { songcat } = this;
       const offset = (page - 1) * 35;
       this.getSongList(songcat, undefined, offset);
-      this.$router.push(`/discover/songlist/?cat=${songcat}&limi=35&offset=${offset}`);
+      this.$router.push(
+        `/discover/songlist/?cat=${songcat}&limi=35&offset=${offset}`
+      );
     },
   },
   async mounted() {
