@@ -198,7 +198,7 @@
               :key="comments.id"
             >
               <div class="user-img">
-                <img :src="comments.user.avatarUrl" />
+                <img v-lazy="comments.user.avatarUrl" />
               </div>
               <div class="cntwrap">
                 <div class="catn">
@@ -209,7 +209,7 @@
                 </div>
                 <div class="rp">
                   <div class="date">{{ commentTime(comments.time) }}</div>
-                  <i class="icon-like iconfont icon-zanpress" @></i>
+                  <i class="icon-like"></i>
                   <a class="like" href="javascript:;">
                     ({{ comments.likedCount }})</a
                   >
@@ -235,10 +235,11 @@
 </template>
 
 <script>
-import formaDate from "../../utils/formaDate_xjw.js";
+import formaDate from "../../utils/formaDate.js";
 import Rank from "../Rank/index";
 export default {
   name: "TopList",
+
   data() {
     return {
       // 表格的移入移出
@@ -262,10 +263,18 @@ export default {
       },
     };
   },
+  watch: {
+    id: {
+      handler(newId, oldId) {
+        this.getSong();
+      },
+    },
+  },
   mounted() {
-    // this.$store.dispatch("getTopLists");
-    this.getSong(this.id);
     this.getCommentList();
+    this.getSong(this.id);
+    this.id = this.$route.params.id;
+    this.getSong();
   },
   methods: {
     getId(idOrUpdate) {
@@ -277,7 +286,7 @@ export default {
       // console.log(this.id);
     },
     // 获取歌曲的数据
-    async getSong(id) {
+    async getSong() {
       const result = await this.$API.toplist.getSongList(this.id);
       // console.log(result);
       const { playlist } = result;
@@ -389,6 +398,7 @@ export default {
               color: #999;
             }
           }
+          // button按钮
           .btns {
             margin-bottom: 25px;
             margin-right: -10px;
@@ -573,10 +583,16 @@ export default {
               .like {
               }
               .icon-like {
+                background: url("../../assets/images/icon2.png");
                 margin-right: 3px;
                 vertical-align: -2px;
+                display: inline-block;
+                overflow: hidden;
                 cursor: pointer;
                 font-size: 25px;
+                width: 15px;
+                height: 14px;
+                background-position: -150px 0;
               }
               span {
                 margin: 0 8px;

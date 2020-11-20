@@ -89,6 +89,7 @@
                   class="blk"
                   v-for="(top, topIndex) in topList"
                   :key="top.id"
+                  @click="goRank(top.id)"
                 >
                   <dt class="top">
                     <div class="cver">
@@ -244,6 +245,10 @@ export default {
     await this.getSingerList();
   },
   methods: {
+    //点击榜单根据id跳转到榜单页面
+    goRank(rankId) {
+      this.$router.push(`/discover/toplist/${rankId}`);
+    },
     isIconShow(event, id) {
       // console.log("event", event);
       // console.log(id, event);
@@ -348,7 +353,7 @@ export default {
 .home {
   background: #f5f5f5;
   .carouselContainer {
-    width: 100%;  
+    width: 100%;
     height: 285px;
   }
   .centerContainer {

@@ -1,16 +1,16 @@
-import Home from "../views/Home";
+// import Home from "../views/Home";
 import MyMusic from "../views/MyMusic";
 import DownLoad from "../views/DownLoad";
 import Musician from "../views/Musician";
 import Friend from "../views/Friend";
 import Shopping from "../views/Shopping";
 import TopList from "../views/TopList";
-import Search from '../views/Search'
+import Search from "../views/Search";
 export default [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/Home"),
     meta: {
       isHideLine: true,
     },
@@ -18,7 +18,8 @@ export default [
   {
     path: "/discover",
     name: "Home",
-    component: Home,
+    // component: Home,
+    component: () => import("../views/Home"),
     meta: {
       isHideLine: true,
     },
@@ -30,7 +31,7 @@ export default [
     // ]
   },
   {
-    path: "/discover/toplist",
+    path: "/discover/toplist/:id?",
     component: TopList,
     name: "topList",
     meta: {
@@ -72,15 +73,15 @@ export default [
     component: Friend,
   },
   {
-    path: '/music',
-    name: 'Music',
+    path: "/music",
+    name: "Music",
     // 路由懒加载
-    component: () => import('@/views/Music')
+    component: () => import("@/views/Music"),
   },
   {
     //?表是参数可传可不传
-    path: '/search/:keyword?',
+    path: "/search/:keyword?",
     component: Search,
-    name: 'search'
-},
+    name: "search",
+  },
 ];

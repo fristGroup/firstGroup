@@ -54,11 +54,43 @@
           </li>
         </ul>
 
-        <div class="loginContainer">
-          <!-- <a href="javascript:;" class="loginLink">登录</a> -->
+        <!-- <div class="loginContainer">
+          <a href="javascript:;" class="loginLink">登录</a>
           <el-button type="text" @click="open" class="loginLink"
             >登录</el-button
           >
+        </div> -->
+        <div class="loginContainer">
+          <!-- <a href="###" class="loginLink">登录</a> -->
+          <!-- <el-button
+            v-if="profile.nickname"
+            type="text"
+            @click="dialogFormVisible = true"
+            class="loginLink"
+            >{{ profile.nickname }}</el-button
+          > -->
+          <!-- start -->
+          <div v-if="profile.nickname" style="position: absolute;">
+            <img
+              v-lazy="profile.avatarUrl"
+              style="border-radius:30px;width:30px;height:30px;margin-top:20px"
+            />
+            <span
+              @click="goOut"
+              style="color:#ccc;position: relative;left:10px;top:-10px;cursor: pointer;"
+              >退出</span
+            >
+          </div>
+
+          <el-button
+            v-else
+            type="text"
+            @click="dialogFormVisible = true"
+            class="loginLink"
+            >登录</el-button
+          >
+
+          <!-- end -->
         </div>
         <a href="javascript:;" class="createdCenter">创作者中心</a>
 
@@ -160,7 +192,10 @@
           </li>
           <li>
             <router-link to="/discover/toplist">
-              <em :class="{ emShow: $route.path === '/discover/toplist' }"
+              <em
+                :class="{
+                  emShow: $route.path.indexOf('/discover/toplist') != -1,
+                }"
                 >排行榜</em
               >
             </router-link>
@@ -188,11 +223,41 @@
         </ul>
       </div>
     </div>
+    <!-- 弹框 登录 -->
+    <el-dialog title="手机号登录" width="30%" :visible.sync="dialogFormVisible">
+      <el-form style="width:80%;margin-left:40px">
+        <el-form-item>
+          <!--  -->
+          <el-input
+            v-model="phone"
+            placeholder="请输入手机号"
+            autocomplete="off"
+          >
+            <template slot="prepend">+86</template>
+          </el-input>
+        </el-form-item>
+        <!--  -->
+        <el-form-item>
+          <el-input
+            type="password"
+            v-model="password"
+            placeholder="请输入密码"
+            autocomplete="off"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="tologin">登 录</el-button>
+      </div>
+    </el-dialog>
+    <!-- end -->
   </div>
 </template>
 <script>
 // 引入vuex的辅助函数
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "Header",
   data() {
@@ -205,6 +270,11 @@ export default {
         offest: 0,
       },
       searchResultShow: false,
+      //登陆弹框
+      dialogFormVisible: false,
+
+      phone: "",
+      password: "",
     };
   },
   computed: {
@@ -213,9 +283,31 @@ export default {
       albumsList: (state) => state.search.albumsList,
       artList: (state) => state.search.artList,
       songPlayList: (state) => state.search.songPlayList,
+      userInfo: (state) => state.user.userInfo,
     }),
+    ...mapGetters(["profile"]),
   },
   methods: {
+    //登陆
+    async tologin() {
+      const { phone, password } = this;
+      if (phone === "" || password === "") {
+        alert("请输入手机号或密码");
+        return;
+      }
+      try {
+        await this.$store.dispatch("LoginUserInfo", { phone, password });
+        this.dialogFormVisible = false;
+        this.phone = "";
+        this.password = "";
+      } catch (error) {
+        console.log("错误信息");
+      }
+    },
+    //退出
+    async goOut() {
+      this.$store.dispatch("logout");
+    },
     open() {
       this.$alert(
         "<div style='width:100%;height:20px;backgroundColor:yellow'>登录</div>",
