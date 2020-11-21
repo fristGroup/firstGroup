@@ -14,7 +14,9 @@ import "@/assets/font/iconfont.css";
 import "swiper/css/swiper.css";
 // 参数1:组件的名字,参数2:组件对象
 Vue.component("Carousel", Carousel);
-
+// 注册公共组件
+import Login from "@/views/Login";
+Vue.component("Login", Login);
 Vue.config.productionTip = false;
 //全局注册
 Vue.use(ElementUI);

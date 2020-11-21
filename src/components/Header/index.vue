@@ -75,11 +75,7 @@
             <span @click="goOut">退出</span>
           </div>
 
-          <el-button
-            v-else
-            type="text"
-            @click="dialogFormVisible = true"
-            class="loginLink"
+          <el-button v-else type="text" @click="dialog" class="loginLink"
             >登录</el-button
           >
 
@@ -230,34 +226,7 @@
       </div>
     </div>
     <!-- 弹框 登录 -->
-    <el-dialog title="手机号登录" width="30%" :visible.sync="dialogFormVisible">
-      <el-form style="width:80%;margin-left:40px">
-        <el-form-item>
-          <!--  -->
-          <el-input
-            v-model="phone"
-            placeholder="请输入手机号"
-            autocomplete="off"
-          >
-            <template slot="prepend">+86</template>
-          </el-input>
-        </el-form-item>
-        <!--  -->
-        <el-form-item>
-          <el-input
-            type="password"
-            v-model="password"
-            placeholder="请输入密码"
-            autocomplete="off"
-          >
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="tologin">登 录</el-button>
-      </div>
-    </el-dialog>
+    <Login v-if="dialogFormVisible" :visible.sync="dialogFormVisible"></Login>
     <!-- end -->
   </div>
 </template>
@@ -294,37 +263,11 @@ export default {
     ...mapGetters(["profile"]),
   },
   methods: {
-    //登陆
-    async tologin() {
-      const { phone, password } = this;
-      if (phone === "" || password === "") {
-        this.$message.error("手机号或者密码不能为空");
-        return;
-      }
-      try {
-        await this.$store.dispatch("LoginUserInfo", { phone, password });
-        this.dialogFormVisible = false;
-        this.phone = "";
-        this.password = "";
-      } catch (error) {
-        this.phone = "";
-        this.password = "";
-        this.$message.error("密码或者账号错误");
-      }
-    },
     //退出
     async goOut() {
       this.$store.dispatch("logout");
     },
-    open() {
-      this.$alert(
-        "<div style='width:100%;height:20px;backgroundColor:yellow'>登录</div>",
-        "登录",
-        {
-          dangerouslyUseHTMLString: true,
-        }
-      );
-    },
+
     to(path) {
       this.$router.push(path);
     },
@@ -386,6 +329,10 @@ export default {
     },
     handleBlur() {
       this.searchResultShow = false;
+    },
+    //点击登录弹框
+    dialog() {
+      this.dialogFormVisible = true;
     },
   },
 };

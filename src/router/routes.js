@@ -12,6 +12,7 @@ import SingerAlbum from "@/views/SingerAlbum";
 //歌单详情
 import SongList from "../views/SongList";
 import SongContentList from "../views/SongContentList";
+import store from "../store";
 export default [
   {
     path: "/",
@@ -57,6 +58,18 @@ export default [
     meta: {
       isHideFooter: true,
     },
+    beforeEnter: (to, from, next) => {
+      if (store.state.user.userInfo.code) {
+        next();
+      } else {
+        next("/discover/beforelogin");
+      }
+    },
+  },
+  {
+    path: "/discover/beforelogin",
+    name: "Beforelogin",
+    component: () => import("@/views/BeforeLogin"),
   },
   {
     path: "/download",

@@ -215,7 +215,7 @@
               <p class="note">
                 登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
               </p>
-              <a href="javascript:;" class="btn">用户登录</a>
+              <a href="javascript:;" class="btn" @click="dialog">用户登录</a>
             </div>
           </div>
           <div class="n-singer">
@@ -265,6 +265,9 @@
         </div>
       </div>
     </div>
+    <!-- 弹框 登录 -->
+    <Login v-if="dialogFormVisible" :visible.sync="dialogFormVisible"></Login>
+    <!-- end -->
   </div>
 </template>
 
@@ -290,6 +293,8 @@ export default {
       topList: [],
       topDetailList: [],
       iconShow: false,
+      //登陆弹框
+      dialogFormVisible: false,
     };
   },
   computed: {
@@ -317,6 +322,10 @@ export default {
     await this.getSingerList();
   },
   methods: {
+    //点击登录弹框
+    dialog() {
+      this.dialogFormVisible = true;
+    },
     //点击榜单根据id跳转到榜单页面
     goRank(rankId) {
       this.$router.push(`/discover/toplist/${rankId}`);
