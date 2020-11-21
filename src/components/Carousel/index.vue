@@ -138,7 +138,7 @@ export default {
 .bgImgWrapper {
   width: 100%;
   height: 285px;
-  background-color: pink;
+  // background-color: pink;
   .swiper-outer {
     width: 982px;
     height: 285px;

@@ -7,7 +7,8 @@ NProgress.configure({ showSpinner: false });
 
 // axios 二次封装
 const request = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3000", //当前生产环境配置
+  // baseURL: "/",  工作中开发和生产环境配置
   timeout: 200000,
 });
 

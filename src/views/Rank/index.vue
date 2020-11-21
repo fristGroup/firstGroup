@@ -69,6 +69,7 @@ export default {
       const result = await this.$API.toplist.getTopList();
       if (result.code === 200) {
         // console.log(result);
+
         const { list } = result;
         this.topFirstList = list.slice(0, 5);
         this.topLastList = list.slice(5);

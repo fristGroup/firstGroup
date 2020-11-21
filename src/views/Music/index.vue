@@ -139,7 +139,7 @@
           small
           layout="prev, pager, next"
           :total="commentTotal"
-          @current-change="getComments"
+          @current-change="currentChange"
         >
         </el-pagination>
       </div>
@@ -180,58 +180,59 @@ export default {
     })
   },
   async mounted () {
-    this.songInit()
+    // 歌曲信息初始化
+    this.songInit(this.$route.params.id)
+    this.$store.dispatch('setIsShowPage', true)
   },
   methods: {
 
     // 播放或添加到播放列表
     playOraddSong (flag) {
       if (flag === 'play') {
-        // 通知子组件播放
-        this.$bus.$emit('play', this.currentSong)
+        this.$store.dispatch('setCurrentSong', this.$route.params.id * 1)
+        // 通知子组件播放，所有播放操作都不由音乐详情页直接处理
+        this.$bus.$emit('play')
       }
       // 将歌曲对象添加到播放列表
       this.$store.dispatch('addSongOfPlayList', this.musicDetail)
+      this.$bus.$emit('isAddOnList')
     },
 
     // 完成歌曲初始化操作
-    async songInit () {
-      this.getSongDetail()
-      await this.getMusicLyric()
+    async songInit (id) {
+      this.getSongDetail(id)
+      await this.getMusicLyric(id)
       if (this.currentLyric) {
         this.scroll = new BScroll(this.$refs.lyc, {
           scrollY: true
         })
       }
-      this.getMusicHotComment()
-      this.getComments()
+      this.getMusicHotComment(id)
+      this.getComments(id)
       this.$bus.$on('setProgress', (currentTime) => {
-
-
         if (this.currentLyric) {
           this.currentLyric.seek(currentTime * 1000)
         }
 
-
-        if (!this.isPlaying) {
+        if (!this.isPlaying && this.currentLyric) {
           // 如果没有在播放状态
           this.currentLyric.togglePlay()
         }
-
       })
 
     },
     // 获取歌词
-    async getMusicLyric () {
+    async getMusicLyric (id) {
       // 每次获取歌词前，清空歌词
       this.currentLyric = null
 
-      const result = await this.$API.song.getMusicLyric(this.songId)
+      const result = await this.$API.song.getMusicLyric(id)
       // 当没有歌词时，则直接返回
       if (result.nolyric) return
 
       this.currentLyric = new Lyric(result.lrc.lyric, this.handleLyric)
     },
+
     handleLyric ({ lineNum, txt }) {
       this.currentLineNum = lineNum
       if (lineNum > 5) {
@@ -241,17 +242,18 @@ export default {
         this.scroll.scrollToElement(lineEl, 1000)
       }
     },
+
     // 获取精彩评论
-    async getMusicHotComment () {
-      const result = await this.$API.song.getMusicHotComment(this.songId)
+    async getMusicHotComment (id) {
+      const result = await this.$API.song.getMusicHotComment(id)
       const { hotComments, total } = result
       this.hotComments = hotComments
       this.commentTotal = total
     },
+
     // 获取评论
-    async getComments (currentPage = 1) {
-      this.pageNo = currentPage
-      const { songId: id, pageNo, cursor } = this
+    async getComments (id) {
+      const { pageNo, cursor } = this
       const result = await this.$API.song.getComments({ id, type: 0, sortType: 3, pageNo, cursor })
       this.comments = result.data.comments
       this.cursor = result.data.cursor
@@ -262,8 +264,8 @@ export default {
     },
 
     // 获取歌曲详情
-    async getSongDetail () {
-      const result = await this.$API.song.getMusicDetail(this.songId)
+    async getSongDetail (id) {
+      const result = await this.$API.song.getMusicDetail(id)
       const { al: { name: album, picUrl }, ar: [{ name: singer }], name: songName } = result.songs[0]
       this.currentSong = {
         songName,
@@ -273,6 +275,17 @@ export default {
       }
       this.musicDetail = result.songs[0]
     },
+
+    // 点击分页器
+    currentChange (currentPage = 1) {
+      this.pageNo = currentPage
+      // 判断当前歌曲是否已添加到播放列表,如果在播放列表内，直接读取vuex数据，否则读取路由数据
+      let id = this.$route.params.id
+      if (this.songId === id) {
+        id = this.songId
+      }
+      this.getComments(id)
+    }
 
   },
   watch: {
@@ -286,30 +299,20 @@ export default {
     // 如果歌曲id改变，则重新初始化数据
     async songId (newId, oldId) {
 
+      // 如果是第一次添加歌曲，则不做操作
+      if (oldId === 0) return
+
       if (this.currentLyric) {
         this.currentLyric.stop()
       }
-
-      await this.songInit()
-      // 如果当前是在播放状态，则继续播放
-
-      // 通知子组件播放
-      this.$bus.$emit('play', this.currentSong)
-      // 将歌曲对象添加到播放列表
-      this.$store.dispatch('addSongOfPlayList', this.musicDetail)
-
-
+      await this.songInit(newId)
     },
 
-    // 监视歌曲变化
-    musicDetail (newInfo, oldInfo) {
-      // 页面加载时，不发送到控制栏
-      if (!Object.keys(oldInfo).length) return
 
-      this.$bus.$emit('switchSong', newInfo)
-
-    }
-
+  },
+  destroyed () {
+    this.$bus.$off('setProgress')
+    this.$store.dispatch('setIsShowPage', false)
   }
 }
 </script>

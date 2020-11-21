@@ -13,7 +13,9 @@
                 <a href="javascript:;" class="hotRecommend">热门推荐</a>
                 <div class="navContent">
                   <span v-for="(item, index) in hotRecommendNav" :key="item.id">
-                    <a href="javascript:;">{{ item.name }}</a>
+                    <router-link :to="`/discover/songlist/?cat=${item.name}`">{{
+                      item.name
+                    }}</router-link>
                     <span
                       class="line"
                       v-if="!(index === hotRecommendNav.length - 1)"
@@ -30,7 +32,7 @@
                   <a href="javascript:;">电子</a> -->
                 </div>
                 <span class="more">
-                  <a href="javascript:;">更多</a>
+                  <router-link to="/discover/songlist">更多</router-link>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -42,9 +44,16 @@
                 >
                   <div class="u-cover">
                     <img v-lazy="hotRecommend.picUrl" alt="" />
-                    <a href="javascript:;" class="msk"></a>
+                    <router-link
+                      :to="`/songcontentlist/?id=${hotRecommend.id}`"
+                      class="msk"
+                    ></router-link>
                     <div class="bottom">
-                      <a href="javascript:;" class="icon-play"></a>
+                      <a
+                        href="javascript:;"
+                        class="icon-play"
+                        @click="playList(hotRecommend.id)"
+                      ></a>
                       <span class="icon-headset"></span>
                       <span class="nb">{{
                         hotRecommend.playCount / 10000 > 0
@@ -54,9 +63,12 @@
                     </div>
                   </div>
                   <p class="dec">
-                    <a href="javascript:;" class="tit">
+                    <router-link
+                      :to="`/songcontentlist/?id=${hotRecommend.id}`"
+                      class="tit"
+                    >
                       {{ hotRecommend.name }}
-                    </a>
+                    </router-link>
                   </p>
                 </li>
               </ul>
@@ -80,7 +92,7 @@
               <div class="topListNav">
                 <a href="javascript:;" class="topList">榜单</a>
                 <span class="more">
-                  <a href="javascript:;">更多</a>
+                  <router-link to="/discover/toplist">更多</router-link>
                   <i class="cor"></i>
                 </span>
               </div>
@@ -89,7 +101,6 @@
                   class="blk"
                   v-for="(top, topIndex) in topList"
                   :key="top.id"
-                  @click="goRank(top.id)"
                 >
                   <dt class="top">
                     <div class="cver">
@@ -97,11 +108,16 @@
                       <a href="javascript:;#" class="msk"></a>
                     </div>
                     <div class="tit">
-                      <a href="javascript:;">
+                      <a href="javascript:;" @click="goRank(top.id)">
                         {{ top.name }}
                       </a>
                       <div class="btn">
-                        <a href="javascript:;" title="播放" class="bg-play"></a>
+                        <a
+                          href="javascript:;"
+                          title="播放"
+                          class="bg-play"
+                          @click="playTop(top.id)"
+                        ></a>
                         <a
                           href="javascript:;"
                           title="收藏"
@@ -125,13 +141,23 @@
                         <span class="no" :class="{ noTop: index < 3 }">{{
                           index + 1
                         }}</span>
-                        <a href="javascript:;">{{ topDetail.name }}</a>
+                        <router-link :to="`/music/${topDetail.id}`">{{
+                          topDetail.name
+                        }}</router-link>
                         <div
                           class="oper"
                           v-show="currentId === topIndex + '' + topDetail.id"
                         >
-                          <a href="javascript:;#" title="播放"></a>
-                          <a href="javascript:;#" title="添加到播放列表"></a>
+                          <a
+                            href="javascript:;#"
+                            title="播放"
+                            @click="playSong(topDetail.id)"
+                          ></a>
+                          <a
+                            href="javascript:;#"
+                            title="添加到播放列表"
+                            @click="addSong(topDetail)"
+                          ></a>
                           <a href="javascript:;#" title="收藏"></a>
                         </div>
                       </li>
@@ -147,11 +173,49 @@
         </div>
         <div class="right">
           <div class="n-user-profile">
-            <div class="n-myinfo">
+            <div v-if="profile.nickname" class="loginInfo">
+              <div class="userInfo clearfix">
+                <a href="javscript:;" class="userAvatarUrl">
+                  <img :src="profile.avatarUrl" alt="用户头像" />
+                </a>
+                <div class="info">
+                  <h4>
+                    <a href="javascript:;">{{ profile.nickname }}</a>
+                  </h4>
+                  <!-- <p>
+                    <a href="javascript:;"></a>
+                  </p>
+                  <div></div> -->
+                </div>
+              </div>
+              <div class="dng">
+                <ul>
+                  <li>
+                    <a href="javascript:;">
+                      <strong class="num">{{ profile.eventCount }}</strong>
+                      <span>动态</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:;">
+                      <strong class="num">{{ profile.follows }}</strong>
+                      <span>关注</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:;">
+                      <strong class="num">{{ profile.followeds }}</strong>
+                      <span>粉丝</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="n-myinfo" v-else>
               <p class="note">
                 登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机
               </p>
-              <a href="javascript:;" class="btn">用户登录</a>
+              <a href="javascript:;" class="btn" @click="dialog">用户登录</a>
             </div>
           </div>
           <div class="n-singer">
@@ -161,7 +225,7 @@
             </div>
             <ul class="n-enter">
               <li v-for="(singer, index) in singersList" :key="singer.id">
-                <a href="javascript:;#" class="itm">
+                <router-link :to="`/singerAlbum/${singer.id}`" class="itm">
                   <div class="head">
                     <img class="j-img" v-lazy="singer.img1v1Url" />
                   </div>
@@ -173,7 +237,7 @@
                       {{ singer.singerInfo }}
                     </p>
                   </div>
-                </a>
+                </router-link>
               </li>
             </ul>
             <div class="toMusicPresonWrap">
@@ -201,10 +265,15 @@
         </div>
       </div>
     </div>
+    <!-- 弹框 登录 -->
+    <Login v-if="dialogFormVisible" :visible.sync="dialogFormVisible"></Login>
+    <!-- end -->
   </div>
 </template>
 
 <script>
+// 引入vuex的辅助函数
+import { mapState, mapGetters } from "vuex";
 // 引入的是图片轮播图组件
 import ImageList from "./ImageList/ImageList";
 export default {
@@ -224,7 +293,15 @@ export default {
       topList: [],
       topDetailList: [],
       iconShow: false,
+      //登陆弹框
+      dialogFormVisible: false,
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: (state) => state.user.userInfo,
+    }),
+    ...mapGetters(["profile"]),
   },
   async mounted() {
     //获取主页的大轮播图
@@ -245,6 +322,10 @@ export default {
     await this.getSingerList();
   },
   methods: {
+    //点击登录弹框
+    dialog() {
+      this.dialogFormVisible = true;
+    },
     //点击榜单根据id跳转到榜单页面
     goRank(rankId) {
       this.$router.push(`/discover/toplist/${rankId}`);
@@ -345,6 +426,32 @@ export default {
         topDetailList.push({ tracks: item.playlist.tracks.slice(0, 10) });
       });
       this.topDetailList = topDetailList;
+    },
+    // 添加单曲到播放列表
+    addSong(song) {
+      this.$bus.$emit("isAddOnList");
+      this.$store.dispatch("addSongOfPlayList", song);
+    },
+    // 播放歌单歌曲
+    async playList(id) {
+      // const res = await
+      const res = await this.$API.songList.getsongdetails(id);
+      this.$store.dispatch("replacePlayList", res.playlist.tracks);
+      this.$store.dispatch("setCurrentSong", res.playlist.tracks[0].id);
+    },
+
+    // 播放榜单歌曲
+    async playTop(id) {
+      let result = await this.$API.topList.getTopDetailList(id);
+      let playList = result.playlist.tracks;
+      this.$store.dispatch("replacePlayList", playList);
+      this.$store.dispatch("setCurrentSong", playList[0].id);
+    },
+    // 播放单曲
+    async playSong(id) {
+      const res = await this.$API.song.getMusicDetail(id);
+      this.$store.dispatch("addSongOfPlayList", res.songs[0]);
+      this.$store.dispatch("setCurrentSong", id);
     },
   },
 };
@@ -693,6 +800,72 @@ export default {
       width: 250px;
 
       .n-user-profile {
+        .loginInfo {
+          width: 250px;
+          height: 165px;
+          padding-top: 20px;
+          background: url("./images/index.png") no-repeat 0 -270px;
+          overflow: hidden;
+          .userInfo {
+            .userAvatarUrl {
+              float: left;
+              width: 80px;
+              height: 80px;
+              margin-left: 20px;
+              padding: 2px;
+              background: #fff;
+              border: 1px solid #dadada;
+              img {
+                display: block;
+                width: 80px;
+                height: 80px;
+              }
+            }
+            .info {
+              float: left;
+              width: 115px;
+              margin-left: 18px;
+              padding-top: 3px;
+              font-size: 14px;
+              color: #333;
+              p {
+                margin-top: 5px;
+              }
+            }
+          }
+          .dng {
+            ul {
+              margin: 22px 0 0 20px;
+              width: 230px;
+              height: 40px;
+              li {
+                float: left;
+                height: 40px;
+                padding: 0 18px;
+                border-right: 1px solid #e4e4e4;
+                a {
+                  display: block;
+                  color: #666;
+                  .num {
+                    display: block;
+                    font-size: 20px;
+                    font-weight: normal;
+                  }
+                  span {
+                    margin-left: 2px;
+                  }
+                }
+                &:nth-child(1) {
+                  padding-left: 0;
+                }
+                &:nth-child(3) {
+                  padding-right: 0;
+                  border-right: none;
+                }
+              }
+            }
+          }
+        }
         .n-myinfo {
           height: 126px;
           background: url("./images/index.png") no-repeat 0 0;

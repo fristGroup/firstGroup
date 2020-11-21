@@ -1,3 +1,5 @@
+@import "./iconfont.css";
+
 /* 清除内外边距 */
 body,
 h1,
@@ -126,10 +128,6 @@ html {
   overflow-y: scroll;
 }
 
-/* a:link:hover{
-    color : rgb(79, 76, 212) !important;
-    text-decoration: underline;
-} */
 a:link:hover {
   text-decoration: underline;
 }

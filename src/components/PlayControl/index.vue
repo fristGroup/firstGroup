@@ -14,18 +14,20 @@
       <!-- 左侧区域 -->
       <div class="play-control-left">
         <div class="cover">
-          <img
-            v-if="songDetail.picUrl"
-            class="coverImg"
-            :src="songDetail.picUrl"
-            alt=""
-          />
-          <img
-            v-else
-            class="coverImg"
-            :src="require('@/assets/images/lazy-bg.png')"
-            alt=""
-          />
+          <router-link :to="`/music/${songId}`">
+            <img
+              v-if="songDetail.picUrl"
+              class="coverImg"
+              :src="songDetail.picUrl"
+              alt=""
+            />
+            <img
+              v-else
+              class="coverImg"
+              :src="require('@/assets/images/lazy-bg.png')"
+              alt=""
+            />
+          </router-link>
         </div>
         <div class="muisc-info">
           <p class="music-title">
@@ -59,32 +61,33 @@
         <div class="progress">
           <span class="start-time">{{ startTime }}</span>
           <!-- 进度条 -->
-          <div class="progress-bar" ref="progress">
-            <div
-              class="progress-inner"
-              :style="{ width: progress }"
-              ref="inner"
-            ></div>
-            <div class="slider" ref="slider" :style="{ left: progress }"></div>
-          </div>
+          <ProgressBar
+            @changeProgress="changeProgress"
+            :progress="progress"
+            :width="'85%'"
+          />
           <span class="end-time">{{ duration }}</span>
         </div>
       </div>
 
       <!-- 播放列表区域 -->
       <div class="play-control-right">
+        <span
+          :class="`iconfont order ${orderClass}`"
+          @click="switchOrder"
+        ></span>
         <!-- 音量区域 -->
         <div class="volume">
           <span class="iconfont trumpet icon-yinliang3"></span>
           <ProgressBar
             :progress="volume * 100"
             width="60px"
-            @changeProgress="changeProgress"
+            @changeProgress="changeProgressOfVol"
           />
         </div>
         <!-- 播放列表 -->
         <div
-          class="show-play-list iconfont icon-menu"
+          class="show-play-list iconfont icon-bofangliebiao5"
           @click="showPlayList"
         ></div>
       </div>
@@ -93,6 +96,7 @@
       height="500px"
       :style="{ right: isShowPlayList ? '-0px' : '-511px' }"
     />
+    <span class="tips" v-show="visible">{{ tips }}</span>
   </div>
 </template>
 
@@ -102,6 +106,7 @@ import { mapState, mapGetters } from 'vuex'
 import debounce from 'lodash/debounce'
 import ProgressBar from '@/components/ProgressBar'
 import PlayList from '@/components/PlayList'
+import swiper from 'swiper'
 
 export default {
   name: 'PlayControl',
@@ -111,7 +116,10 @@ export default {
   },
   data () {
     return {
-      songDetail: {}, // 歌曲信息
+      order: 1, // 播放顺序
+      orderClass: 'icon-ziyuan', // 改变播放顺序图标
+      tips: '', // 弹框提示文字 
+      visible: false,
       isShowPlayList: false, // 播放列表显示隐藏
       lock: false, // 控制栏是否锁定
       isShowControl: true, // 控制播放控制栏显示隐藏
@@ -124,30 +132,28 @@ export default {
   },
   computed: {
     ...mapState({
+      isShowMusicPage: (state) => state.play.isShowMusicPage,
       isPlaying: (state) => state.play.isPlaying,
       songId: (state) => state.play.songId
-    })
+    }),
+    ...mapGetters(['songDetail'])
   },
   async mounted () {
+    this.handleMouse(false)
+
     // 当点击播放时
-    this.$bus.$on('play', async (songDetail) => {
+    this.$bus.$on('play', async () => {
+      console.log('con:play')
+      // 初始化音频
       await this.initAudio()
-      if (this.songDetail !== songDetail) {
-        this.songDetail = songDetail
-      }
-      this.play()
     })
 
-    // 当切换歌曲时
-    this.$bus.$on('switchSong', (songDetail) => {
-      console.log(songDetail)
-      const { al: { name: album, picUrl }, ar: [{ name: singer }], name: songName } = songDetail
-      this.songDetail = {
-        songName,
-        picUrl,
-        singer,
-        album
-      }
+    // 当添加到播放列表时
+    this.$bus.$on('isAddOnList', () => {
+      this.showTips('已添加到播放列表')
+      // 控制栏显示
+      this.handleMouse(true)
+      this.handleMouse(false)
     })
   },
   methods: {
@@ -157,12 +163,9 @@ export default {
       await this.getMusicUrl()
       // 绑定audio事件监听
       this.audioAddEventListeners()
-      // 绑定进度条监听事件
-      this.progressBarAddListener()
-      // // 控制栏显示
+      // 控制栏显示
+      this.handleMouse(true)
       this.handleMouse(false)
-      // 添加到播放列表
-
     },
 
     // 获取播放链接
@@ -186,63 +189,30 @@ export default {
       // 音频开始可以播放事件
       this.audio.addEventListener('canplay', () => {
         this.duration = moment(this.audio.duration * 1000).format('mm:ss')
+        // 如果当前已加载完毕，表示此时可以播放
+        this.audio.play()
+        this.$store.dispatch('setIsPlaying', true)
+        this.showTips('已开始播放')
       })
       // 播放进度更新事件
       this.audio.addEventListener('timeupdate', () => {
         const { currentTime, duration } = this.audio
         this.startTime = moment(this.audio.currentTime * 1000).format('mm:ss')
         // 更新进度条
-        this.progress = (currentTime / duration) * 100 + '%'
-      })
-    },
+        this.progress = (currentTime / duration) * 100
 
-    // 进度条监听事件
-    progressBarAddListener (e) {
-      const { slider, progress, inner } = this.$refs
-      let isClickSlider = false
-      let distance = 0 // 滑块与点击坐标的绝对距离
-      let progressWidth = progress.offsetWidth
-
-      slider.onmousedown = (e) => {
-        isClickSlider = true
-        // 计算出滑块与点击坐标的绝对距离
-        distance = e.clientX - progress.offsetLeft - slider.offsetLeft
-        e.preventDefault()
-      }
-
-      document.onmousemove = (e) => {
-        let curX = e.clientX - progress.offsetLeft - distance
-
-        this.progress = (curX / progressWidth) * 100
-        if (this.progress >= 100) {
-          this.progress = 100
-        }
-
-        if (this.progress <= 0) {
-          this.progress = 0
-        }
-
-        if (isClickSlider) {
-          slider.style.left = this.progress + "%"
-          inner.style.width = this.progress + '%'
-
-          // 计算拖动的事件
-          const time = this.audio.duration * (this.progress / 100)
-
-          // 拖拽时，修改播放进度
-          this.audio.currentTime = time
-
+        if (this.isShowMusicPage) {
           // 歌词跟着跳转
           this.$bus.$emit('setProgress', this.audio.currentTime)
         }
-        e.preventDefault()
-      }
 
-      document.onmouseup = (e) => {
-        isClickSlider = false
-        e.preventDefault()
-      }
+      })
 
+      // 歌曲播放完毕
+      this.audio.addEventListener('ended', () => {
+        // 如果歌曲播放完毕，则自动下一曲
+        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'pre' })
+      })
     },
 
     // 播放或暂停
@@ -251,21 +221,23 @@ export default {
 
       if (this.isPlaying) {
         this.audio.pause()
+        this.$store.dispatch('setIsPlaying', false)
       } else {
         this.audio.play()
+        this.$store.dispatch('setIsPlaying', true)
       }
-      this.$store.dispatch('setIsPlaying')
+
     },
 
     // 鼠标进入离开，控制栏的隐藏显示
     handleMouse (flag) {
       clearTimeout(this.timerId)
       if (this.lock) return
-
       if (flag) {
         // 鼠标进入则显示
         this.isShowControl = true
       } else {
+
         // 鼠标离开
         this.timerId = setTimeout(() => {
           this.isShowPlayList = false
@@ -288,9 +260,26 @@ export default {
 
     },
 
+    showTips (text) {
+      this.tips = text
+      this.visible = true
+      setTimeout(() => {
+        this.visible = false
+      }, 2000)
+    },
+
     // 音量条
-    changeProgress (val) {
+    changeProgressOfVol (val) {
       this.audio.volume = val / 100
+    },
+
+    // 播放进度条
+    changeProgress (val) {
+      this.progress = val
+      // 计算拖动的事件
+      const time = this.audio.duration * (this.progress / 100)
+      // 拖拽时，修改播放进度
+      this.audio.currentTime = time
     },
 
     // 播放列表的展示隐藏
@@ -307,14 +296,32 @@ export default {
         // 下一曲
         this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'next' })
       }
+    },
+
+    // 切换顺序
+    switchOrder () {
+      this.order = ++this.order
+
+      if (this.order > 3) {
+        this.order = 1
+      }
+
+      switch (this.order) {
+        case 1: this.orderClass = 'icon-ziyuan'
+          break
+        case 2: this.orderClass = 'icon-ziyuan1'
+          break
+        case 3: this.orderClass = 'icon-suiji4'
+          break
+      }
     }
 
   },
   watch: {
     // 如果歌曲id改变，则重新初始化数据
-    songId () {
-      this.initAudio()
-      this.play()
+    async songId (newId, oldId) {
+      // if (oldId === 0) return
+      await this.initAudio()
     }
   }
 }
@@ -327,6 +334,33 @@ export default {
   transition: bottom 0.4s ease-out;
   width: 100%;
   z-index: 1000;
+
+  .tips {
+    background-color: #fff;
+    position: absolute;
+    top: -20px;
+    right: 30px;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
+  .tips::after {
+    content: " ";
+    border-width: 6px;
+    bottom: -12px;
+    right: 12px;
+    margin-left: -6px;
+    border-top-color: #fff;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
   .lock-wrap {
     position: absolute;
     width: 38px;
@@ -385,11 +419,13 @@ export default {
     }
   }
   .play-control-middle {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 500px;
     flex-direction: column;
     align-items: center;
+
     .control {
       display: flex;
       width: 200px;
@@ -446,7 +482,11 @@ export default {
     width: 15%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: left;
+    .order {
+      cursor: pointer;
+      width: 20px;
+    }
     .play-list {
       font-size: 26px;
       float: right;
@@ -454,8 +494,8 @@ export default {
       cursor: pointer;
     }
     .show-play-list {
-      font-size: 18px;
       cursor: pointer;
+      margin-left: 30px;
     }
   }
 }

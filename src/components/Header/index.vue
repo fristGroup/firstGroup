@@ -70,23 +70,12 @@
             >{{ profile.nickname }}</el-button
           > -->
           <!-- start -->
-          <div v-if="profile.nickname" style="position: absolute;">
-            <img
-              v-lazy="profile.avatarUrl"
-              style="border-radius:30px;width:30px;height:30px;margin-top:20px"
-            />
-            <span
-              @click="goOut"
-              style="color:#ccc;position: relative;left:10px;top:-10px;cursor: pointer;"
-              >退出</span
-            >
+          <div v-if="profile.nickname" class="logout">
+            <img v-lazy="profile.avatarUrl" />
+            <span @click="goOut">退出</span>
           </div>
 
-          <el-button
-            v-else
-            type="text"
-            @click="dialogFormVisible = true"
-            class="loginLink"
+          <el-button v-else type="text" @click="dialog" class="loginLink"
             >登录</el-button
           >
 
@@ -201,9 +190,17 @@
             </router-link>
           </li>
           <li>
-            <a href="javascript:;">
+            <!-- <a href="javascript:;">
               <em>歌单</em>
-            </a>
+            </a> -->
+            <router-link to="/discover/songlist">
+              <em
+                :class="{
+                  emShow: $route.path.indexOf('/discover/songlist') != -1,
+                }"
+                >歌单</em
+              >
+            </router-link>
           </li>
           <li>
             <a href="javascript:;">
@@ -211,9 +208,14 @@
             </a>
           </li>
           <li>
-            <a href="javascript:;">
-              <em>歌手</em>
-            </a>
+            <router-link to="/discover/findSinger">
+              <em
+                :class="{
+                  emShow: $route.path.indexOf('/discover/findSinger') != -1,
+                }"
+                >歌手</em
+              >
+            </router-link>
           </li>
           <li>
             <a href="javascript:;">
@@ -224,34 +226,7 @@
       </div>
     </div>
     <!-- 弹框 登录 -->
-    <el-dialog title="手机号登录" width="30%" :visible.sync="dialogFormVisible">
-      <el-form style="width:80%;margin-left:40px">
-        <el-form-item>
-          <!--  -->
-          <el-input
-            v-model="phone"
-            placeholder="请输入手机号"
-            autocomplete="off"
-          >
-            <template slot="prepend">+86</template>
-          </el-input>
-        </el-form-item>
-        <!--  -->
-        <el-form-item>
-          <el-input
-            type="password"
-            v-model="password"
-            placeholder="请输入密码"
-            autocomplete="off"
-          >
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="tologin">登 录</el-button>
-      </div>
-    </el-dialog>
+    <Login v-if="dialogFormVisible" :visible.sync="dialogFormVisible"></Login>
     <!-- end -->
   </div>
 </template>
@@ -288,35 +263,11 @@ export default {
     ...mapGetters(["profile"]),
   },
   methods: {
-    //登陆
-    async tologin() {
-      const { phone, password } = this;
-      if (phone === "" || password === "") {
-        alert("请输入手机号或密码");
-        return;
-      }
-      try {
-        await this.$store.dispatch("LoginUserInfo", { phone, password });
-        this.dialogFormVisible = false;
-        this.phone = "";
-        this.password = "";
-      } catch (error) {
-        console.log("错误信息");
-      }
-    },
     //退出
     async goOut() {
       this.$store.dispatch("logout");
     },
-    open() {
-      this.$alert(
-        "<div style='width:100%;height:20px;backgroundColor:yellow'>登录</div>",
-        "登录",
-        {
-          dangerouslyUseHTMLString: true,
-        }
-      );
-    },
+
     to(path) {
       this.$router.push(path);
     },
@@ -378,6 +329,10 @@ export default {
     },
     handleBlur() {
       this.searchResultShow = false;
+    },
+    //点击登录弹框
+    dialog() {
+      this.dialogFormVisible = true;
     },
   },
 };
@@ -473,6 +428,26 @@ export default {
           text-decoration: none;
           &:hover {
             color: #787878;
+          }
+        }
+        .logout {
+          overflow: hidden;
+          img {
+            display: block;
+            float: left;
+            border-radius: 30px;
+            width: 30px;
+            height: 30px;
+            margin-top: 20px;
+          }
+          span {
+            padding-left: 10px;
+            float: left;
+            display: block;
+            color: #ccc;
+            font-size: 12px;
+            line-height: 69px;
+            cursor: pointer;
           }
         }
       }

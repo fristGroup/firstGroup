@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="play-list-wrap"
-    ref="wrap"
-    :style="{ height: height, width: width }"
-  >
+  <div class="play-list-wrap" :style="{ height: height, width: width }">
     <div class="play-list">
       <div class="play-list-top">
         <p class="play-list-title">播放列表</p>
@@ -12,107 +8,116 @@
           >清空列表
         </p>
       </div>
-      <el-table
-        v-if="playList.length"
-        :show-header="false"
-        stripe
-        :data="playList"
-        :style="{ width: '100%' }"
-      >
-        <el-table-column width="200">
-          <template v-slot="{ row, $index }">
-            <span
-              :class="[
-                'iconfont play',
-                currentIndex === $index ? 'icon-zanting' : 'icon-bofang2',
-              ]"
-              @click="play($index, row.id)"
-            ></span>
-            <span class="songName">{{ row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" width="150">
-          <template v-slot="{ row }">
-            <span class="singer">{{ row.ar[0].name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="dt">
-          <template v-slot="{ row }">
-            <span class="duration">{{ formaTime(row.dt) }} </span>
-          </template>
-        </el-table-column>
-        <el-table-column>
-          <template v-slot="{ row }">
-            <span
-              class="iconfont icon-huishouzhan del"
-              @click="removeSong(row.id)"
-            ></span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <p class="tips" v-else>您还没有添加任何歌曲！</p>
+      <div class="play-list-container" ref="wrap">
+        <el-table
+          class="play-list-main"
+          :show-header="false"
+          stripe
+          :data="playList"
+          :style="{ width: '100%' }"
+          v-if="playList.length"
+        >
+          <el-table-column width="200">
+            <template v-slot="{ row, $index }">
+              <span
+                :class="[
+                  'iconfont play',
+                  currentIndex === $index ? 'icon-zanting' : 'icon-bofang2',
+                ]"
+                @click="play($index, row.id)"
+              ></span>
+              <span class="songName">{{ row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" width="150">
+            <template v-slot="{ row }">
+              <span class="singer">{{ row.ar[0].name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="dt">
+            <template v-slot="{ row }">
+              <span class="duration">{{ formaTime(row.dt) }} </span>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template v-slot="{ row }">
+              <span
+                class="iconfont icon-huishouzhan del"
+                @click="removeSong(row.id)"
+              ></span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <p class="tips" v-else>您还没有添加任何歌曲！</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-import moment from 'moment'
-import { mapState, mapGetters } from 'vuex'
+import BScroll from "better-scroll";
+import moment from "moment";
+import { mapState, mapGetters } from "vuex";
 export default {
-  name: 'PlayList',
+  name: "PlayList",
   props: {
     height: {
-      type: String
+      type: String,
     },
     width: {
-      type: String
-    }
+      type: String,
+    },
   },
-  data () {
-    return {
-
-    }
+  data() {
+    return {};
   },
   computed: {
     ...mapState({
       songId: (state) => state.play.songId,
-      playList: (state) => state.play.playList
+      playList: (state) => state.play.playList,
     }),
-    ...mapGetters(['currentIndex'])
+    ...mapGetters(["currentIndex"]),
   },
-  async mounted () {
-    await this.getMusicListDetial()
-    this.scroll = new BScroll(this.$refs.wrap, {})
+  async mounted() {
+    this.scroll = new BScroll(this.$refs.wrap, {});
   },
   methods: {
     // 格式化时间
-    formaTime (time) {
-      return moment(time).format("mm:ss")
+    formaTime(time) {
+      return moment(time).format("mm:ss");
     },
-    // 获取歌单详情
-    async getMusicListDetial () {
-      const res = await this.$API.song.getMusicListDetail(24381616)
-      this.$store.dispatch('addMusicList', res.playlist.tracks)
-    },
-    play (index, songId) {
-      if (this.currentIndex === index) return
 
-      this.$store.dispatch('setCurrentSong', songId)
+    play(index, songId) {
+      if (this.currentIndex === index) return;
+
+      this.$store.dispatch("setCurrentSong", songId);
     },
     // 清空列表
-    emptyPlayList () {
-      this.$store.dispatch('clearPlayList')
+    emptyPlayList() {
+      this.$store.dispatch("clearPlayList");
     },
     // 移除单曲
-    removeSong (id) {
-      this.$store.dispatch('delMusic', id)
-    }
-  }
-}
+    removeSong(id) {
+      this.$store.dispatch("delMusic", id);
+    },
+  },
+  watch: {
+    playList() {
+      if (this.scroll) {
+        this.$nextTick(() => {
+          this.scroll.refresh();
+        });
+      }
+    },
+  },
+};
 </script>
 
-<style lang='less' rel='stylesheet/less' scoped>
+<style lang="less" rel="stylesheet/less" scoped>
+.play-list-container {
+  height: 435px;
+  overflow: hidden;
+}
 .play-list-wrap {
   position: absolute;
   bottom: 76px;
