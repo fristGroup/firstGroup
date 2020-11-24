@@ -1,23 +1,25 @@
 <template>
   <div class="swiper-outer">
-    <div class="swiper-container  swiper-no-swiping" ref="sw4">
+    <div class="swiper-container swiper-no-swiping" ref="sw4">
       <div class="swiper-wrapper">
         <div
           class="swiper-slide"
           v-for="(diskImg, index) in diskImageList"
           :key="index"
         >
-          <div class="u-cover ">
+          <div class="u-cover">
             <img :src="diskImg.picUrl" class="diskImg" />
-            <a href="###" class="msk"></a>
-            <a href="###"></a>
+            <a href="javascript:;" class="msk"></a>
+            <a href="javascript:;"></a>
           </div>
           <p class="f-thide">
             <a href="javascript:;">{{ diskImg.name }}</a>
           </p>
           <p class="f-thide">
             <span v-for="(singer, index) in diskImg.artists" :key="singer.id">
-              <router-link :to="`/singerAlbum/${singer.id}`">{{ singer.name }}</router-link>
+              <router-link :to="`/singerAlbum/${singer.id}`">{{
+                singer.name
+              }}</router-link>
               {{ diskImg.artists[index + 1] ? `&nbsp;/` : "" }}
             </span>
           </p>
@@ -31,7 +33,7 @@
 
 <script>
 // 引入swiper对象
-import Swiper from "swiper";
+import Swiper from "swiper"
 
 export default {
   name: "ImageList",
@@ -42,20 +44,20 @@ export default {
   // 计算属性
   computed: {},
   methods: {
-    getSingers(singers) {
+    getSingers (singers) {
       const singersStr = singers.reduce((pre, current, index) => {
-        let str = `<a href="javascript:;">${current.name}</a>/`;
-        return pre + str;
-      }, "");
-      return `${singersStr.substr(0, singersStr.length - 1)}`;
+        let str = `<a href="javascript:;">${current.name}</a>/`
+        return pre + str
+      }, "")
+      return `${singersStr.substr(0, singersStr.length - 1)}`
     },
   },
   watch: {
     diskImageList: {
       // 该回调将会在侦听开始之后被立即调用
-      handler: function() {
+      handler: function () {
         // 判断
-        if (this.diskImageList.length === 0) return;
+        if (this.diskImageList.length === 0) return
         // console.log('watch....执行了....', this.carouselList.length)
         // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
         this.$nextTick(() => {
@@ -72,8 +74,8 @@ export default {
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
             },
-          });
-        });
+          })
+        })
       },
       immediate: true,
     },

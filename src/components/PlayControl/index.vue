@@ -210,8 +210,13 @@ export default {
 
       // 歌曲播放完毕
       this.audio.addEventListener('ended', () => {
+        if (this.order === 2) {
+          // 如果是单曲循环
+          return this.initAudio()
+        }
         // 如果歌曲播放完毕，则自动下一曲
-        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'pre' })
+        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'pre', order: this.order })
+
       })
     },
 
@@ -291,10 +296,10 @@ export default {
     preOrNext (flag) {
       if (flag === 'pre') {
         // 上一曲
-        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'pre' })
+        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'pre', order: this.order })
       } else {
         // 下一曲
-        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'next' })
+        this.$store.dispatch('nextOrPre', { songId: this.songId, flag: 'next', order: this.order })
       }
     },
 
@@ -320,6 +325,7 @@ export default {
   watch: {
     // 如果歌曲id改变，则重新初始化数据
     async songId (newId, oldId) {
+
       // if (oldId === 0) return
       await this.initAudio()
     }

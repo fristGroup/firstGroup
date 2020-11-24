@@ -103,9 +103,9 @@
                   :key="top.id"
                 >
                   <dt class="top">
-                    <div class="cver">
+                    <div class="cver" @click="goRank(top.id)">
                       <img v-lazy="top.coverImgUrl" alt="" class="j-img" />
-                      <a href="javascript:;#" class="msk"></a>
+                      <a href="javascript:;" class="msk"></a>
                     </div>
                     <div class="tit">
                       <a href="javascript:;" @click="goRank(top.id)">
@@ -149,21 +149,23 @@
                           v-show="currentId === topIndex + '' + topDetail.id"
                         >
                           <a
-                            href="javascript:;#"
+                            href="javascript:;"
                             title="播放"
                             @click="playSong(topDetail.id)"
                           ></a>
                           <a
-                            href="javascript:;#"
+                            href="javascript:;"
                             title="添加到播放列表"
                             @click="addSong(topDetail)"
                           ></a>
-                          <a href="javascript:;#" title="收藏"></a>
+                          <a href="javascript:;" title="收藏"></a>
                         </div>
                       </li>
                     </ol>
                     <div class="more">
-                      <a href="javascript:;#">查看全部></a>
+                      <a href="javascript:;" @click="goRank(top.id)"
+                        >查看全部></a
+                      >
                     </div>
                   </dd>
                 </dl>
@@ -273,15 +275,15 @@
 
 <script>
 // 引入vuex的辅助函数
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex"
 // 引入的是图片轮播图组件
-import ImageList from "./ImageList/ImageList";
+import ImageList from "./ImageList/ImageList"
 export default {
   name: "Home",
   components: {
     ImageList,
   },
-  data() {
+  data () {
     return {
       currentId: "",
       carouselList: [],
@@ -295,7 +297,7 @@ export default {
       iconShow: false,
       //登陆弹框
       dialogFormVisible: false,
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -303,98 +305,98 @@ export default {
     }),
     ...mapGetters(["profile"]),
   },
-  async mounted() {
+  async mounted () {
     //获取主页的大轮播图
-    this.getCarouselList();
+    this.getCarouselList()
     //获取榜单
-    await this.getTopList();
+    await this.getTopList()
     //获取榜单详情
-    this.getTopDetailList();
+    this.getTopDetailList()
     //获取热门推荐的导航栏
-    this.getHotRecommendNav();
+    this.getHotRecommendNav()
     //获取热门推荐
-    this.getHotRecommendList();
+    this.getHotRecommendList()
     //获取新碟上架
-    this.getDiskImageList();
+    this.getDiskImageList()
     //获取热门主播
-    this.getPopularDj();
+    this.getPopularDj()
     //获取入驻歌手
-    await this.getSingerList();
+    await this.getSingerList()
   },
   methods: {
     //点击登录弹框
-    dialog() {
-      this.dialogFormVisible = true;
+    dialog () {
+      this.dialogFormVisible = true
     },
     //点击榜单根据id跳转到榜单页面
-    goRank(rankId) {
-      this.$router.push(`/discover/toplist/${rankId}`);
+    goRank (rankId) {
+      this.$router.push(`/discover/toplist/${rankId}`)
     },
-    isIconShow(event, id) {
+    isIconShow (event, id) {
       // console.log("event", event);
       // console.log(id, event);
       // console.log(id, event.target.dataset.topid);
-      this.currentId = id;
+      this.currentId = id
     },
-    isIconHide(event, id) {
-      this.currentId = "";
+    isIconHide (event, id) {
+      this.currentId = ""
     },
-    async getCarouselList() {
-      const result = await this.$API.banners.getBannersList();
+    async getCarouselList () {
+      const result = await this.$API.banners.getBannersList()
       // console.log(result);
       if (result.code === 200) {
-        this.carouselList = result.banners;
+        this.carouselList = result.banners
       }
     },
-    async getHotRecommendList() {
-      const result = await this.$API.hotRecommend.getHotRecommendList();
+    async getHotRecommendList () {
+      const result = await this.$API.hotRecommend.getHotRecommendList()
       // console.log(result);
       if (result.code === 200) {
-        this.hotRecommendList = result.result;
+        this.hotRecommendList = result.result
       }
     },
-    async getHotRecommendNav() {
-      const result = await this.$API.hotRecommend.getHotRecommendNav();
+    async getHotRecommendNav () {
+      const result = await this.$API.hotRecommend.getHotRecommendNav()
       // console.log(result);
       if (result.code === 200) {
-        this.hotRecommendNav = result.tags.slice(0, 5);
+        this.hotRecommendNav = result.tags.slice(0, 5)
       }
     },
-    async getDiskImageList() {
-      const result = await this.$API.banners.getNewAlbumList();
+    async getDiskImageList () {
+      const result = await this.$API.banners.getNewAlbumList()
       // console.log(result);
       if (result.code === 200) {
-        this.diskImageList = result.albums.slice(0, 10);
+        this.diskImageList = result.albums.slice(0, 10)
       }
     },
-    async getPopularDj() {
-      const result = await this.$API.popularDj.getPopularDjList();
+    async getPopularDj () {
+      const result = await this.$API.popularDj.getPopularDjList()
       // console.log(result);
       if (result.code === 200) {
-        this.popularDjList = result.data.list;
+        this.popularDjList = result.data.list
       }
     },
-    async getSingerList() {
-      const result = await this.$API.singers.getSingerList();
+    async getSingerList () {
+      const result = await this.$API.singers.getSingerList()
 
       if (result.code === 200) {
-        this.singersList = result.artists;
+        this.singersList = result.artists
         const promises = result.artists.map((item, index) => {
-          return this.getSingerInfo(item.id);
-        });
-        const singerInfo = await Promise.all(promises);
+          return this.getSingerInfo(item.id)
+        })
+        const singerInfo = await Promise.all(promises)
         this.singersList = this.singersList.map((item, index) => {
           return {
             ...item,
             singerInfo: singerInfo[index],
-          };
-        });
+          }
+        })
 
         // singerInfo=res.
       }
     },
-    async getSingerInfo(id) {
-      const result = await this.$API.singers.getSingerInfo(id);
+    async getSingerInfo (id) {
+      const result = await this.$API.singers.getSingerInfo(id)
       // const briefDesc = "";
       // this.$API.singers.getSingerInfo(id).then((success) => {
       //   const briefDesc = success.briefDesc;
@@ -402,56 +404,56 @@ export default {
 
       if (result.code === 200) {
         // console.log(result.briefDesc);
-        return result.briefDesc;
+        return result.briefDesc
       }
     },
-    async getTopList() {
-      const result = await this.$API.topList.getTopList();
+    async getTopList () {
+      const result = await this.$API.topList.getTopList()
       // console.log(result);
       if (result.code === 200) {
-        this.topList = result.list.splice(0, 3);
+        this.topList = result.list.splice(0, 3)
       }
     },
-    async getTopDetailList() {
-      const { topList, topDetailList } = this;
+    async getTopDetailList () {
+      const { topList, topDetailList } = this
       // console.log(topList);
       const promises = topList.map((item, index) => {
-        let result = this.$API.topList.getTopDetailList(item.id);
-        return result;
-      });
+        let result = this.$API.topList.getTopDetailList(item.id)
+        return result
+      })
       // console.log(promises);
-      const res = await Promise.all(promises);
+      const res = await Promise.all(promises)
       // console.log(res);
       res.forEach((item, index) => {
-        topDetailList.push({ tracks: item.playlist.tracks.slice(0, 10) });
-      });
-      this.topDetailList = topDetailList;
+        topDetailList.push({ tracks: item.playlist.tracks.slice(0, 10) })
+      })
+      this.topDetailList = topDetailList
     },
     // 添加单曲到播放列表
-    addSong(song) {
-      this.$bus.$emit("isAddOnList");
-      this.$store.dispatch("addSongOfPlayList", song);
+    addSong (song) {
+      this.$bus.$emit("isAddOnList")
+      this.$store.dispatch("addSongOfPlayList", song)
     },
     // 播放歌单歌曲
-    async playList(id) {
+    async playList (id) {
       // const res = await
-      const res = await this.$API.songList.getsongdetails(id);
-      this.$store.dispatch("replacePlayList", res.playlist.tracks);
-      this.$store.dispatch("setCurrentSong", res.playlist.tracks[0].id);
+      const res = await this.$API.songList.getsongdetails(id)
+      this.$store.dispatch("replacePlayList", res.playlist.tracks)
+      this.$store.dispatch("setCurrentSong", res.playlist.tracks[0].id)
     },
 
     // 播放榜单歌曲
-    async playTop(id) {
-      let result = await this.$API.topList.getTopDetailList(id);
-      let playList = result.playlist.tracks;
-      this.$store.dispatch("replacePlayList", playList);
-      this.$store.dispatch("setCurrentSong", playList[0].id);
+    async playTop (id) {
+      let result = await this.$API.topList.getTopDetailList(id)
+      let playList = result.playlist.tracks
+      this.$store.dispatch("replacePlayList", playList)
+      this.$store.dispatch("setCurrentSong", playList[0].id)
     },
     // 播放单曲
-    async playSong(id) {
-      const res = await this.$API.song.getMusicDetail(id);
-      this.$store.dispatch("addSongOfPlayList", res.songs[0]);
-      this.$store.dispatch("setCurrentSong", id);
+    async playSong (id) {
+      const res = await this.$API.song.getMusicDetail(id)
+      this.$store.dispatch("addSongOfPlayList", res.songs[0])
+      this.$store.dispatch("setCurrentSong", id)
     },
   },
 };
@@ -787,6 +789,7 @@ export default {
                   line-height: 32px;
                   a {
                     color: #000;
+                    float: right;
                   }
                 }
               }

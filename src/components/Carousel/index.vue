@@ -1,5 +1,5 @@
 <template>
-  <div class="bgImgWrapper">
+  <div class="bgImgWrapper" :style="bgimgList[activeIndex].bgimg">
     <div class="swiper-outer">
       <div class="swiper-container" id="swL" ref="sw">
         <div class="swiper-wrapper">
@@ -33,7 +33,50 @@ export default {
   },
   data() {
     return {
+      activeIndex: 0,
       // flag: true,
+      bgimgList: [
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/Nn5fFLjlDn1T1G0w2TJ5sw==/109951165492135859.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/rKP2A7Twr6scZQGqj7H7KA==/109951165492194549.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/wlpzyr6yu3bB93TR8lCKSQ==/109951165492198661.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/LEwCkcrKS02QFRUxKBxgHw==/109951165492195932.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/L_ZUx_7xFLDzWDN3Fq8BxQ==/109951165492161550.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/ETirjXZre8gAmy9rLQOYlg==/109951165492153434.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center; ",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/-SBn2-b5WftW3XGitVImkA==/109951165491826301.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/qeKz1G12SuyzXi_oxzlfeg==/109951165492221504.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/RCVmEnQ7uiHj0nxqxuHHoQ==/109951165492221662.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center;",
+        },
+        {
+          bgimg:
+            "background-image: url('http://p1.music.126.net/nod7BlRDBomZfCtcuIwoTg==/109951165492665588.jpg?imageView&blur=40x20'); background-size: 6000px; background-position: center center; ",
+        },
+      ],
     };
   },
   mounted() {
@@ -87,7 +130,7 @@ export default {
       // console.log('watch....执行了....', this.carouselList.length)
       // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。\
       // if (!this.flag) return;
-
+      const _this = this;
       this.$nextTick(() => {
         setTimeout(() => {
           const mySwiper = new Swiper(this.$refs.sw, {
@@ -109,6 +152,17 @@ export default {
             navigation: {
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
+            },
+            on: {
+              //当切换时触发的方法
+              slideChange: function() {
+                // this.activeIndex 当前轮播图下标
+                if (this.activeIndex > _this.bgimgList.length) {
+                  _this.activeIndex = 0;
+                } else {
+                  _this.activeIndex = this.activeIndex - 1;
+                }
+              },
             },
           });
 
@@ -138,7 +192,10 @@ export default {
 .bgImgWrapper {
   width: 100%;
   height: 285px;
+  transition: all 1s;
   // background-color: pink;
+  background-size: 6000px;
+  background-position: center center;
   .swiper-outer {
     width: 982px;
     height: 285px;
@@ -154,7 +211,7 @@ export default {
           .bgImg {
             // background-size: 6000px;
             // background-position: center center;
-            background-color: tan;
+            // background-color: tan;
             width: 1100px;
             height: 285px;
             img {

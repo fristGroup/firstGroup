@@ -92,6 +92,7 @@
               >播放</el-button
             >
             <el-button size="mini" @click="toPlay2">+</el-button>
+
             <el-button size="mini">收藏</el-button>
             <el-button size="mini">分享</el-button>
             <el-button size="mini">下载</el-button>
@@ -138,7 +139,9 @@
                   <div class="song-title">
                     <i class="play-song" @click="toPlay(row)"></i>
                     <span class="song-name">
-                      <router-link :to="`/music/${row.id}`">{{ row.name }}</router-link>
+                      <router-link :to="`/music/${row.id}`">{{
+                        row.name
+                      }}</router-link>
                       <span class="song-small">{{
                         row.alia[0] ? " - (" + row.alia[0] + ")" : ""
                       }}</span>
@@ -210,9 +213,7 @@
               <div class="icon">
                 <i class="icn u-icn u-icn-36 j-flag"></i>
                 <span>140</span>
-                <el-button type="primary" size="mini" @click="addComment()"
-                  >评论</el-button
-                >
+                <el-button size="mini" @click="addComment()">评论</el-button>
               </div>
             </div>
           </div>
@@ -334,12 +335,12 @@
 </template>
 <script>
 // {{ item.time | formatDate('YYYY-MM-DD HH:mm:ss')}}
-import formaDate from "../../utils/formaDate.js";
-import { mapState } from "vuex";
+import formaDate from "../../utils/formaDate.js"
+import { mapState } from "vuex"
 // import formaDate from "../../utils/formaDate.js";
 export default {
   name: "myMusic",
-  data() {
+  data () {
     return {
       gridData: [
         {
@@ -398,90 +399,90 @@ export default {
       topList: [], //排行榜
       listId: [], //排行榜id数组
       topDetailList: [], //排行榜中的歌单
-    };
+    }
   },
   computed: {
     ...mapState({
       userInfo: (state) => state.user.userInfo,
     }),
   },
-  mounted() {
-    this.init();
+  mounted () {
+    this.init()
   },
   methods: {
-    init() {
+    init () {
       if (this.userInfo.account) {
-        this.getHotMusic(this.userInfo.account.id);
+        this.getHotMusic(this.userInfo.account.id)
       } else {
-        this.userList = [];
+        this.userList = []
       }
-      this.getComment();
-      this.switchPage(this.id);
+      this.getComment()
+      this.switchPage(this.id)
       // this.getPerList(); //获取精品歌单
-      this.reqTopList();
+      this.reqTopList()
     },
     // 删除新建歌单
-    del(index) {
+    del (index) {
       this.$confirm("此操作将删除此歌单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        console.log(index);
-        this.userList.splice(index, 1);
+        console.log(index)
+        this.userList.splice(index, 1)
         this.$message({
           type: "success",
           message: "删除成功!",
-        });
+        })
 
         // this.detailList = this.userList[0];
         // this.getHotMusic()
-      });
+      })
     },
     // 删除收藏的榜单
-    delHide(index) {
+    delHide (index) {
       this.$confirm("此操作将删除此歌单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        console.log(index);
-        this.topList.splice(index, 1);
+        console.log(index)
+        this.topList.splice(index, 1)
         this.$message({
           type: "success",
           message: "删除成功!",
-        });
-        this.detailList = this.topList[0];
+        })
+        this.detailList = this.topList[0]
         // this.switchAllTop(this.listId)
-      });
+      })
     },
     // 控制歌单上图标显示隐藏
-    changeShow(flag, index) {
+    changeShow (flag, index) {
       if (flag) {
-        this.currentIndex = index;
+        this.currentIndex = index
       } else {
-        this.currentIndex = null;
+        this.currentIndex = null
       }
     },
     // 控制榜单上的图标显示隐藏
-    changeHold(flag, index) {
+    changeHold (flag, index) {
       if (flag) {
-        this.nowIndex = index;
+        this.nowIndex = index
       } else {
-        this.nowIndex = null;
+        this.nowIndex = null
       }
     },
     // 获取精彩评论
-    async getComment() {
-      const id = this.listId;
-      const reuslt = await this.$API.mymusic.getMusicComment();
-      this.commentList = reuslt.hotComments;
+    async getComment () {
+      const id = this.listId
+      const reuslt = await this.$API.mymusic.getMusicComment()
+      this.commentList = reuslt.hotComments
       // this.commentList = result.comments
     },
     // 获取用户歌单
-    async getHotMusic(uid) {
-      const result = await this.$API.mymusic.getHotList(uid);
-      this.userList = result.playlist;
+    async getHotMusic (uid) {
+      const result = await this.$API.mymusic.getHotList(uid)
+      this.userList = result.playlist
       // console.log(this.userList,'用户歌单');
     },
 
@@ -490,33 +491,33 @@ export default {
     //   this.$store.dispatch('LoginUserInfo',{phone,password})
     // },
     //控制创建的歌单显示或隐藏
-    handleShow() {
-      this.isShow = !this.isShow;
+    handleShow () {
+      this.isShow = !this.isShow
     },
     // 控制收藏的歌单显示隐藏
-    showHold() {
-      this.isShowHold = !this.isShowHold;
+    showHold () {
+      this.isShowHold = !this.isShowHold
     },
     // 点击创建的歌单右侧展示歌单信息
-    async switchPage(id) {
-      const result = await this.$API.mymusic.getListDetail(id);
+    async switchPage (id) {
+      const result = await this.$API.mymusic.getListDetail(id)
       if (result.code === 200) {
-        this.detailList = result.playlist;
+        this.detailList = result.playlist
       }
     },
 
     // 点击收藏歌单展示右侧榜单详情信息
-    async switchAllTop(id) {
-      const result = await this.$API.mymusic.getAllTopDetail(id);
+    async switchAllTop (id) {
+      const result = await this.$API.mymusic.getAllTopDetail(id)
       if (result.code === 200) {
-        this.detailList = result.playlist;
-        this.singerId = result.playlist.tracks[0].ar[0].id;
-        console.log(this.detailList, "nnn");
-        this.listId = id;
+        this.detailList = result.playlist
+        this.singerId = result.playlist.tracks[0].ar[0].id
+        console.log(this.detailList, "nnn")
+        this.listId = id
       }
     },
     // 新建歌单
-    open() {
+    open () {
       this.$prompt("新建歌单", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -525,22 +526,22 @@ export default {
           this.userList.push({
             name: value,
             coverImgUrl: "/per6.jpeg",
-          });
+          })
           this.$message({
             type: "success",
             message: "新建歌单成功" + value,
-          });
+          })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "取消输入",
-          });
-        });
+          })
+        })
     },
     //点击添加评论
-    addComment(commentText) {
-      console.log(this.contentText);
+    addComment (commentText) {
+      console.log(this.contentText)
       this.commentList.unshift({
         content: this.commentText,
         user: {
@@ -550,36 +551,36 @@ export default {
         time: Date.now(),
         // name:'同桌你好坏',
         // time:Date.now(),
-      });
+      })
       // 清空输入框
-      this.commentText = "";
+      this.commentText = ""
     },
     // 歌曲时长
-    date(time) {
-      return formaDate(time, "s");
+    date (time) {
+      return formaDate(time, "s")
     },
     // 歌单创建时间
-    newTime(time) {
-      return formaDate(time, "m");
+    newTime (time) {
+      return formaDate(time, "m")
     },
     // 评论更新时间
-    updateTime(time) {
-      return formaDate(time);
+    updateTime (time) {
+      return formaDate(time)
     },
     // 获取排行榜
-    async reqTopList() {
-      const result = await this.$API.mymusic.getTopList();
+    async reqTopList () {
+      const result = await this.$API.mymusic.getTopList()
       if (result.code === 200) {
-        console.log(result, "所有榜单");
-        this.topList = result.list.splice(1, 10);
+        console.log(result, "所有榜单")
+        this.topList = result.list.splice(1, 10)
       }
     },
     // 查看歌手详情
-    async singerDetail(id) {
+    async singerDetail (id) {
       // console.log(id)
       // 路由跳转传参
-      const result = await this.$API.singer.reqSingerAlbum(id);
-      this.$router.push("/singerAlbum/" + id);
+      const result = await this.$API.singer.reqSingerAlbum(id)
+      this.$router.push("/singerAlbum/" + id)
       // this.idArray =
       // this.$router.push({
       //   path: "/singerAlbum",
@@ -592,45 +593,45 @@ export default {
     },
 
     // 点击播放小图标
-    toPlay(row) {
-      this.$store.dispatch("addSongOfPlayList", row);
-      this.$store.dispatch("setCurrentSong", row.id);
+    toPlay (row) {
+      this.$store.dispatch("addSongOfPlayList", row)
+      this.$store.dispatch("setCurrentSong", row.id)
     },
 
     //点击'播放'
-    toPlay1() {
+    toPlay1 () {
       // console.log(this.tracks);
       // console.log(this.tracks[0]);
-      this.$store.dispatch("replacePlayList", this.detailList.tracks);
-      this.$store.dispatch("setCurrentSong", this.detailList.tracks[0].id);
-      console.log(this.detailList.tracks);
+      this.$store.dispatch("replacePlayList", this.detailList.tracks)
+      this.$store.dispatch("setCurrentSong", this.detailList.tracks[0].id)
+      console.log(this.detailList.tracks)
     },
     //点击'+',添加整个榜单
-    toPlay2() {
-      this.$bus.$emit("isAddOnList");
-      this.$store.dispatch("addMusicList", this.detailList.tracks);
+    toPlay2 () {
+      this.$bus.$emit("isAddOnList")
+      this.$store.dispatch("addMusicList", this.detailList.tracks)
     },
     //点击歌曲名字跳转详情页
-    toPlay4(nameId) {
-      this.$router.push(`/music/${nameId}`);
+    toPlay4 (nameId) {
+      this.$router.push(`/music/${nameId}`)
     },
     //添加到播放列表
-    addSong(song) {
-      this.$bus.$emit("isAddOnList");
-      this.$store.dispatch("addSongOfPlayList", song);
-      console.log("添加");
+    addSong (song) {
+      this.$bus.$emit("isAddOnList")
+      this.$store.dispatch("addSongOfPlayList", song)
+      console.log("添加")
     },
 
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       // 更新每页条数的数据
-      this.limit = val;
+      this.limit = val
       // 重新获取数据
-      this.getComment();
+      this.getComment()
     },
   },
   watch: {
-    userInfo() {
-      this.init();
+    userInfo () {
+      this.init()
     },
   },
 };
@@ -783,12 +784,12 @@ a {
             margin: 0px;
           }
           button:nth-child(1) {
-            background-color: blue;
+            background-color: #409eff;
             color: white;
           }
           button:nth-child(2) {
             margin-left: -5px;
-            background-color: blue;
+            background-color: #409eff;
             color: white;
           }
         }
@@ -961,7 +962,7 @@ a {
               button {
                 color: white;
                 font-size: 12px;
-                background-color: blue;
+                background-color: #409eff;
               }
               span {
                 font-size: 12px;
